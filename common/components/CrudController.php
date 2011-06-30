@@ -158,7 +158,7 @@ abstract class CrudController extends AclController
         $criteria = new CDbCriteria;
         $criteria->limit = $rows;
         $criteria->offset = $offset;
-        $criteria->select = $cols;
+        $criteria->select = array_untrim($cols, '`');;
         $records = $this->model->findAll($criteria);
 
         $rows = array();
@@ -191,6 +191,8 @@ abstract class CrudController extends AclController
          * Ajax-based validation
          */
         $this->performAjaxValidation();
+
+        var_dump($_REQUEST); die();
 
         /*
          * Insert

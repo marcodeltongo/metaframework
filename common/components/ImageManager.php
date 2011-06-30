@@ -14,93 +14,92 @@
 class ImageManager extends CApplicationComponent
 {
     /**
-     * Language name in 'en_EN' format
+     * Language name in 'en_EN' format.
      *
      * @var string
      */
     private $_language;
     /**
-     * class.upload.php library instance
+     * class.upload.php library instance.
      *
      * @var object
      */
     private $_handle;
     /**
+     * class.upload.php library path.
+     *
+     * @var object
+     */
+    public $uploadClassPath;
+    /**
      * Local upload path.
      *
      * @var string
      */
-    private $_local_path;
+    public $basePath;
     /**
-     * Public path
+     * Public URL.
      *
      * @var string
      */
-    private $_public_url;
+    public $baseUrl;
     /**
-     * Image aliases
+     * Image formats.
      */
-    public $aliases;
+    public $formats = array();
 
     /**
-     * init function
+     * Initialize widget.
      */
     public function init()
     {
         parent::init();
 
-        $this->_local_path = realpath(Yii::app()->getBasePath() . Yii::app()->params['basePhotoPath']) . DIRECTORY_SEPARATOR;
-        $this->_public_url = Yii::app()->params['basePhotoURL'];
-        $dir = dirname(__FILE__);
-        $alias = md5($dir);
-        Yii::setPathOfAlias($alias, $dir);
-        Yii::import($alias . '.upload');
+        /*
+         * Check configuration
+         */
+        if (null === $this->basePath) {
+            throw new CHttpException(500, 'Missing configuration parameter "basePath".');
+        }
+        if (null === $this->baseUrl) {
+            throw new CHttpException(500, 'Missing configuration parameter "baseUrl".');
+        }
+        if ((null === $this->uploadClassPath) and !class_exists('upload', false)) {
+            throw new CHttpException(500, 'Missing configuration parameter "uploadClassPath".');
+        }
+
+        require_once $this->uploadClassPath . 'class.upload.php';
     }
 
     /**
-     * Language set function
+     * PHP getter magic method.
      *
-     * @param string $lang
+     * @param string $name property name
+     * @return mixed property value
      */
-    public function setLanguage($lang)
+    public function __get($name)
     {
-        $this->_language = $lang;
+        return $this->_handle->$name;
     }
 
     /**
-     * Main extension loader
+     * PHP setter magic method.
      *
-     * @param (string||$_FILE) $image
-     *
-     * @return upload
+     * @param string $name property name
+     * @param mixed $value property value
      */
-    public function load($image)
+    public function __set($name, $value)
     {
-        $this->setLanguage(Yii::app()->getLanguage());
-        $this->_handle = new upload($image, $this->_language);
-        return $this->_handle;
+        return $this->_handle->$name = $value;
     }
 
     /**
-     * Main extension loader for uploads
-     *
-     * @param ($_FILE) $image
-     *
-     * @return boolean
-     */
-    public function uploaded($image)
-    {
-        $this->load($image);
-        return $this->_handle->uploaded;
-    }
-
-    /**
-     * Linearize $_FILES array from FormModel classes
+     * Linearize $_FILES array from FormModel classes.
      *
      * @param array $src
      * @return array
      */
-    public function normalize_files_array($src)
+    private function normalize_files_array($src)
     {
         $files = array();
         if (!array_key_exists('name', $src)) {
@@ -117,7 +116,44 @@ class ImageManager extends CApplicationComponent
     }
 
     /**
-     * Main extension loader for uploads
+     * Language set function.
+     *
+     * @param string $lang
+     */
+    public function setLanguage($lang)
+    {
+        $this->_language = $lang;
+    }
+
+    /**
+     * Main extension loader.
+     *
+     * @param (string||$_FILE) $image
+     *
+     * @return upload
+     */
+    public function load($image)
+    {
+        $this->setLanguage(Yii::app()->getLanguage());
+        $this->_handle = new upload($image, $this->_language);
+        return $this->_handle;
+    }
+
+    /**
+     * Main extension loader for uploads.
+     *
+     * @param ($_FILE) $image
+     *
+     * @return boolean
+     */
+    public function uploaded($image)
+    {
+        $this->load($image);
+        return $this->_handle->uploaded;
+    }
+
+    /**
+     * Main extension loader for uploads.
      *
      * @param mixed $image $_FILES array usually
      * @param string $field Optional key for $image array
@@ -128,13 +164,11 @@ class ImageManager extends CApplicationComponent
      */
     public function upload($image, $field = false, $path = false, $safe = true)
     {
-        $this->setLanguage(Yii::app()->getLanguage());
-
         /*
          * No path, save in "original" folder.
          */
         if (false === $path) {
-            $path = $this->_local_path . 'original';
+            $path = $this->basePath . 'original';
         }
 
         /*
@@ -150,7 +184,7 @@ class ImageManager extends CApplicationComponent
         /*
          * Something to process ?
          */
-        $this->_handle = new upload($image, $this->_language);
+        $this->load($image);
         if ($this->_handle->uploaded and $this->_handle->file_is_image) {
             if ($safe) {
                 $this->_handle->file_safe_name = true;
@@ -169,7 +203,7 @@ class ImageManager extends CApplicationComponent
     }
 
     /**
-     * Returns aliased image path
+     * Returns aliased image path.
      *
      * @param string $image
      * @param string $alias
@@ -185,22 +219,22 @@ class ImageManager extends CApplicationComponent
         /*
          * Check configuration for alias details
          */
-        if (array_key_exists($alias, $this->aliases)) {
+        if (array_key_exists($alias, $this->formats)) {
             /*
              * Check if file already exists
              */
-            if (!file_exists($this->_local_path . $alias . '/' . $image)) {
+            if (!file_exists($this->basePath . $alias . '/' . $image)) {
                 /*
                  * Get original
                  */
-                if (!file_exists($this->_local_path . 'original/' . $image)) {
+                if (!file_exists($this->basePath . 'original/' . $image)) {
                     return $image;
                 }
-                $this->load($this->_local_path . 'original/' . $image);
+                $this->load($this->basePath . 'original/' . $image);
                 /*
                  * Create new aliased image
                  */
-                foreach ($this->aliases[$alias] as $property => $value) {
+                foreach ($this->formats[$alias] as $property => $value) {
                     /*
                      * Map config properties to class.upload.php properties
                      */
@@ -212,14 +246,14 @@ class ImageManager extends CApplicationComponent
                  * Process image
                  */
                 $this->_handle->file_overwrite = true;
-                $this->_handle->process($this->_local_path . $alias . '/');
+                $this->_handle->process($this->basePath . $alias . '/');
             }
-            return $this->_public_url . $alias . '/' . $image;
+            return $this->baseUrl . $alias . '/' . $image;
         }
         /*
          * Return as original
          */
-        return $this->_public_url . 'original/' . $image;
+        return $this->baseUrl . 'original/' . $image;
     }
 
     /**
@@ -238,7 +272,7 @@ class ImageManager extends CApplicationComponent
     }
 
     /**
-     * Returns all aliased image paths
+     * Returns all aliased image paths.
      *
      * @param string $image
      *
@@ -251,7 +285,7 @@ class ImageManager extends CApplicationComponent
         }
 
         $paths = array();
-        foreach ($this->aliases as $alias => $settings) {
+        foreach ($this->formats as $alias => $settings) {
             $paths[$alias] = $this->alias($image, $alias);
         }
 
@@ -259,7 +293,7 @@ class ImageManager extends CApplicationComponent
     }
 
     /**
-     * Downloads and prepares a YouTube cover image
+     * Downloads and prepares a YouTube cover image.
      *
      * @param string $youtubeID
      * @param integer $width
@@ -270,7 +304,7 @@ class ImageManager extends CApplicationComponent
      */
     public function youtubeCover($youtubeID, $width = 170, $height = 170, $crop = true)
     {
-        $local = $this->_local_path . 'video_cover/' . $youtubeID . '.jpg';
+        $local = $this->basePath . 'video_cover/' . $youtubeID . '.jpg';
         if (!file_exists($local)) {
             $ch = curl_init("http://img.youtube.com/vi/$youtubeID/0.jpg");
             $fp = fopen($local, 'wb');
@@ -296,32 +330,10 @@ class ImageManager extends CApplicationComponent
             $original->image_y = $height;
             $original->jpeg_quality = 95;
 
-            $original->process($this->_local_path . 'youtube-cover');
+            $original->process($this->basePath . 'youtube-cover');
         }
 
-        return $this->_public_url . 'youtube-cover/' . $youtubeID . '.jpg';
-    }
-
-    /**
-     * PHP getter magic method.
-     *
-     * @param string $name property name
-     * @return mixed property value
-     */
-    public function __get($name)
-    {
-        return $this->_handle->$name;
-    }
-
-    /**
-     * PHP setter magic method.
-     *
-     * @param string $name property name
-     * @param mixed $value property value
-     */
-    public function __set($name, $value)
-    {
-        return $this->_handle->$name = $value;
+        return $this->baseUrl . 'youtube-cover/' . $youtubeID . '.jpg';
     }
 
 }
