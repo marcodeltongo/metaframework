@@ -89,7 +89,7 @@ return array(
         ),
         'imageManager' => array(
             'class' => 'ImageManager',
-            'baseUrl' => BASE_URL,
+            'baseUrl' => 'media/photos/',
             'basePath' => PUBLIC_DIR . 'media/photos/',
             'uploadClassPath' => VENDORS_DIR . 'Upload/',
             'formats' => array(

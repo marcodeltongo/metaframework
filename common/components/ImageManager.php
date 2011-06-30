@@ -68,6 +68,14 @@ class ImageManager extends CApplicationComponent
             throw new CHttpException(500, 'Missing configuration parameter "uploadClassPath".');
         }
 
+        /*
+         * Make public url absolute
+         */
+        $this->baseUrl = Yii::app()->getBaseUrl(true) . '/' . $this->baseUrl;
+
+        /*
+         * Load Upload class
+         */
         require_once $this->uploadClassPath . 'class.upload.php';
     }
 
@@ -308,6 +316,18 @@ class ImageManager extends CApplicationComponent
         }
 
         return $paths;
+    }
+
+    /**
+     * Removes image files.
+     *
+     * @param string $image
+     */
+    public function deleteAll($image)
+    {
+        /*
+         * 
+         */
     }
 
     /**

@@ -3,49 +3,58 @@ ________________________________________________________________________________
 
 
 
+New form widgets:
+
+* jQueryUI powered MultiSelect-next
+* jQueryUI powered SelectMenu
+
+
+
 Related widget:
 
-- further refinements ?
-- try to add composite keys support
-
+* more tests
+* try to add composite keys support
+* integrate jQueryUI powered MultiSelect-next
+* integrate jQueryUI powered SelectMenu
 
 
 Cli:
 
-- command to extract ACL rules and save in DB
+* command to extract ACL rules and save in DB
 
 
 
 Gii:
 
-- try to use jQueryUI CSS framework in forms, buttons...
-- Multi-crud, generate CRUD files for * models
-- CRUD dropdown for model name
+* integrate jQueryUI CSS framework in forms, buttons...
+* Multi-crud, generate CRUD files for * models
+* CRUD dropdown for model name
+* support for imageField
 
 
 
 ImageManager:
 
-- Multi-upload support through http://www.plupload.com/
+* deleteAll implementation
+* Multi-upload support through http://www.plupload.com/
   or http://aquantum-demo.appspot.com/file-upload
 
 
 
 Caching:
 
-- Implement page and fragment cache.
-- Set to CDummyCache as default for development.
-
-
-
-New components, setups, other:
-
-- ?
+* Implement page and fragment cache.
+* Set to CDummyCache as default for development.
 
 
 
 Documentation:
 
-- Start writing it !
+* Start writing it !
 
 
+
+Community:
+
+* Build a demo app.
+* Look for contributors.

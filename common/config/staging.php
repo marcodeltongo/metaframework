@@ -21,10 +21,6 @@ return CMap::mergeArray(array(
             'class' => 'CLogRouter',
             'routes' => array(
                 array(
-                    'class' => 'XWebDebugRouter',
-                    'config' => 'yamlStyle, fixedPos, runInDebug, collapsed',
-                ),
-                array(
                     'class' => 'CProfileLogRoute',
                     'levels' => 'profile',
                     'enabled' => true,

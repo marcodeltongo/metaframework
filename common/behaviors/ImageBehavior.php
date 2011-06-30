@@ -48,8 +48,22 @@ class ImageBehavior extends CActiveRecordBehavior
             return;
         }
 
+        /*
+         * Manage uploads
+         */
         foreach ($this->attributes as $name) {
-            if (isset($_FILES[$class]['name']) and !empty($_FILES[$class]['name'])) {
+            /*
+             * Remove image ?
+             */
+            if (isset($_POST[$class][$name . '__deleteImage'])
+                    and (1 == $_POST[$class][$name . '__deleteImage'])) {
+                Yii::app()->imageManager->deleteAll($owner->$name);
+                $owner->$name = '';
+            }
+            /*
+             * Upload image ?
+             */
+            if (isset($_FILES[$class]['name']) and !empty($_FILES[$class]['name'][$name])) {
                 $image = Yii::app()->imageManager->upload($_FILES[$class], $name);
                 if (false === $image) {
                     $event->isValid = false;

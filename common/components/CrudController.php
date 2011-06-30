@@ -192,7 +192,6 @@ abstract class CrudController extends AclController
          */
         $this->performAjaxValidation();
 
-        var_dump($_REQUEST); die();
 
         /*
          * Insert
