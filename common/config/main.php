@@ -89,6 +89,16 @@ return array(
         ),
         'imageManager' => array(
             'class' => 'ImageManager',
+            'baseUrl' => BASE_URL,
+            'basePath' => PUBLIC_DIR . 'media/photos/',
+            'uploadClassPath' => VENDORS_DIR . 'Upload/',
+            'formats' => array(
+                    'thumb' => array(
+                        'image_resize' => true,
+                        'image_ratio_x' => true,
+                        'image_y' => 150,
+                    ),
+            ),
         ),
         'file' => array(
             'class'=>'common.extensions.CFile.CFile',

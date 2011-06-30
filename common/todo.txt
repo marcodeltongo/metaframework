@@ -1,10 +1,20 @@
-Updates:
+TO DO
+________________________________________________________________________________
 
-- further refine Related widget
+
+
+Related widget:
+
+- further refinements ?
+- try to add composite keys support
+
+
 
 Cli:
 
 - command to extract ACL rules and save in DB
+
+
 
 Gii:
 
@@ -12,11 +22,30 @@ Gii:
 - Multi-crud, generate CRUD files for * models
 - CRUD dropdown for model name
 
+
+
+ImageManager:
+
+- Multi-upload support through http://www.plupload.com/
+  or http://aquantum-demo.appspot.com/file-upload
+
+
+
+Caching:
+
+- Implement page and fragment cache.
+- Set to CDummyCache as default for development.
+
+
+
 New components, setups, other:
 
-- http://www.plupload.com/ or http://aquantum-demo.appspot.com/file-upload ?
-- Cache shortcuts
+- ?
+
+
 
 Documentation:
 
 - Start writing it !
+
+

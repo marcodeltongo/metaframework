@@ -85,6 +85,9 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
         /*
         Available behaviors:
         - zii.behaviors.CTimestampBehavior
+        - common.behaviors.ImageBehavior
+        - common.behaviors.JsonBehavior
+        - common.behaviors.LocaleDateTimeBehavior
         - common.behaviors.SerializeBehavior
 
         $behaviors['BEHAVIOURNAME'] = array(

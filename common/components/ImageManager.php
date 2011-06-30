@@ -142,12 +142,28 @@ class ImageManager extends CApplicationComponent
     /**
      * Main extension loader for uploads.
      *
-     * @param ($_FILE) $image
+     * @param mixed $image $_FILES array usually
+     * @param string $field Optional key for $image array
      *
      * @return boolean
      */
-    public function uploaded($image)
+    public function uploaded($image, $field = false)
     {
+        /*
+         * Find input
+         */
+        if (is_array($image)) {
+            $image = $this->normalize_files_array($image);
+            if (false !== $field) {
+                $image = $image[$field];
+            } else {
+                $image = array_shift($image);
+            }
+        }
+
+        /*
+         * Check and return
+         */
         $this->load($image);
         return $this->_handle->uploaded;
     }
@@ -172,13 +188,15 @@ class ImageManager extends CApplicationComponent
         }
 
         /*
-         * Find imput
+         * Find input
          */
-        $image = $this->normalize_files_array($image);
-        if (false !== $field) {
-            $image = $image[$field];
-        } else {
-            $image = array_shift($image);
+        if (is_array($image)) {
+            $image = $this->normalize_files_array($image);
+            if (false !== $field) {
+                $image = $image[$field];
+            } else {
+                $image = array_shift($image);
+            }
         }
 
         /*
