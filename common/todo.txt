@@ -1,0 +1,17 @@
+Updates:
+
+- further refine Related widget
+
+Gii:
+
+- try to use jQueryUI CSS framework in forms, buttons...
+
+New components, setups, other:
+
+- Upload/Multiupload
+- Image
+- Cache
+
+Documentation:
+
+- Start writing it !

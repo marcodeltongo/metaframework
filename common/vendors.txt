@@ -1,0 +1,13 @@
+VENDORS
+----------------------------------------
+
+For optimization and ease of updates the common/vendors folder isn't included, so create it and
+download a copy, link from a common dir or set as externals the following libraries:
+
+Yii http://yii.googlecode.com/svn/tags/1.1.8/framework OR http://yii.googlecode.com/svn/trunk/framework
+Zend http://framework.zend.com/svn/framework/standard/tags/release-1.11.7/library/Zend
+PHPExcel https://phpexcel.svn.codeplex.com/svn/branches/v1.7.6/Classes
+PHPMailer https://phpmailer.svn.sourceforge.net/svnroot/phpmailer/phpmailer/tags/phpmailer-5.1
+PHPass http://www.openwall.com/phpass/ (only PasswordHash.php is needed)
+Browscap http://browsers.garykeith.com/downloads.asp (only php_browscap.ini is needed)
+helpers https://github.com/logicoder/php-helpers

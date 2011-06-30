@@ -1,0 +1,1 @@
+This folder must be writable my the user running PHP/Apache.
