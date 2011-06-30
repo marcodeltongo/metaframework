@@ -248,7 +248,7 @@ header nav li {
     padding: 4px;
     position: relative;
 }
-header nav li:last-child {
+header nav > ul > li:last-child {
     float: right;
 }
 header nav ul li a, header nav ul li span {
@@ -272,6 +272,7 @@ header nav li:hover > ul {
 }
 header nav ul li ul {
     position: absolute;
+    min-width: 100%;
     top: 100%;
     background: #000000;
     color: #ecf0eb;

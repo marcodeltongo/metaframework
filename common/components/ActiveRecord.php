@@ -78,7 +78,7 @@ class ActiveRecord extends CActiveRecord
                     throw new CException("Unable to get table and foreign key information from MANY_MANY relation definition (" . $relation->foreignKey . ")");
                 }
                 list($match, $junctionTable, $junctionLFK, $junctionRFK) = $matches;
-                $junctionClass = (class_exists($junctionTable)) ? $junctionTable : false;
+                $junctionClass = (class_exists($junctionTable, false)) ? $junctionTable : false;
                 /*
                  * Find all models that can be related
                  */

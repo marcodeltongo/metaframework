@@ -36,7 +36,7 @@ function generateAttributeRow($column, $modelClass) {
         }
     } elseif (in_array($dbType, array('DATE', 'DATETIME', 'TIME', 'TIMESTAMP'))) {
         $mode = ($dbType == 'TIMESTAMP') ? 'datetime' : strtolower($dbType);
-        echo "\t\t<div class='input datetime-input'><?php \$this->widget('CJuiDateTimePicker', array(\n";
+        echo "\t\t<div class='input datetime-input'><?php \$this->widget('common.extensions.CJuiDateTimePicker.CJuiDateTimePicker', array(\n";
         echo "\t\t\t'model' => \$model,\n";
         echo "\t\t\t'attribute' => '{$column->name}',\n";
         echo "\t\t\t'mode' => '$mode',\n";
