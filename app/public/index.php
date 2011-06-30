@@ -97,8 +97,8 @@ Yii::setPathOfAlias('ext', COMMON_DIR . DIRECTORY_SEPARATOR . 'extensions');
 /*
  * Some helpers.
  */
-include VENDORS_DIR . 'Logicoder/array-helpers.php';
-include VENDORS_DIR . 'Logicoder/string-helpers.php';
+include VENDORS_DIR . 'php-helpers/array-helpers.php';
+include VENDORS_DIR . 'php-helpers/string-helpers.php';
 
 /*
  * Run !!!
