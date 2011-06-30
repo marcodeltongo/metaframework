@@ -28,17 +28,17 @@ class ActiveForm extends CActiveForm
      */
     public function imageField($model, $attribute, $alias = 'edit-view', $canDelete = false, $inputOptions = array(), $imgOptions = array())
     {
-        if ($model->isNewRecord or empty($model->$field)) {
-            return $form->fileField($model, $field, $inputOptions);
+        if ($model->isNewRecord or empty($model->$attribute)) {
+            return $this->fileField($model, $attribute, $inputOptions);
         } else {
             $alt = (isset($imgOptions['alt'])) ? $imgOptions['alt'] : '';
-            $html = Yii::app()->imageManager->html_alias($model->$field, $alias, $alt, $imgOptions);
+            $html = Yii::app()->imageManager->html_alias($model->$attribute, $alias, $alt, $imgOptions);
 
             if ($canDelete) {
-                $js = 'var je = jQuery(this); je.prev().fadeOut(); je.fadeOut(); jQuery(\'#' . $field . '_delete\').attr(\'value\',\'1\'); je.next().next().next().fadeIn();';
+                $js = 'var je = jQuery(this); je.prev().fadeOut(); je.fadeOut(); jQuery(\'#' . $attribute . '_delete\').attr(\'value\',\'1\'); je.next().next().next().fadeIn();';
                 $html .= '<input type="button" onclick="' . $js . '" value="' . Yii::t('yii', 'Delete image') . '" />';
-                $html .= '<input type="hidden" id="' . $field . '_delete" name="' . $field . '_delete" value="0" />';
-                $html .= $form->fileField($model, $field, array('style' => 'display: none'));
+                $html .= '<input type="hidden" id="' . $attribute . '_delete" name="' . $attribute . '_delete" value="0" />';
+                $html .= $this->fileField($model, $attribute, array('style' => 'display: none'));
             }
 
             return $html;
