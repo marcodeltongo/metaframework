@@ -14,6 +14,9 @@
         'validateOnChange' => false,
     ),
     'enableClientValidation' => true,
+    'htmlOptions' => array(
+        'enctype' => 'multipart/form-data',
+    ),
 )); ?>\n"; ?>
     <?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
 

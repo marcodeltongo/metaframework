@@ -88,6 +88,9 @@ $excludedFileds = array_key_from_value($relations, 2);
         'validateOnChange' => false,
     ),
     'enableClientValidation' => true,
+    'htmlOptions' => array(
+        'enctype' => 'multipart/form-data',
+    ),
 )); ?>\n"; ?>
 
 <?php echo "<?php echo \$form->errorSummary(\$model); ?>\n"; ?>
