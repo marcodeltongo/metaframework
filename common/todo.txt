@@ -2,9 +2,15 @@ Updates:
 
 - further refine Related widget
 
+Cli:
+
+- command to extract ACL rules and save in DB
+
 Gii:
 
 - try to use jQueryUI CSS framework in forms, buttons...
+- Multi-crud, generate CRUD files for * models
+- CRUD dropdown for model name
 
 New components, setups, other:
 

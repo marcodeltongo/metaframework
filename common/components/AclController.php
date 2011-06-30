@@ -41,6 +41,8 @@ abstract class AclController extends Controller
     public function filterACL($filterChain)
     {
         $user = Yii::app()->getUser();
+        $actionId = $this->getAction()->getId();
+        $hasAccess = false;
 
         /*
          * Turned off ?
@@ -51,9 +53,32 @@ abstract class AclController extends Controller
         }
 
         /*
+         * Check controller access rules.
+         */
+        $conRules = $this->accessRules();
+        foreach ($conRules as $rule) {
+            if ($rule[0] == 'allow') {
+                if (!array_key_exists('actions', $conRules) or in_array($actionId, $rule['actions'])) {
+                    if (in_array('*', $rule['users'])
+                            or (!$user->getIsGuest() and
+                                (in_array($user->getName(), $rule['users']) or in_array('@', $rule['users'])))
+                            or ($user->getIsGuest() and
+                                (in_array($user->getName(), $rule['users']) or in_array('?', $rule['users'])))) {
+                        $hasAccess = true;
+                        break;
+                    }
+                }
+            }
+        }
+        if ($hasAccess) {
+            $filterChain->run();
+            return;
+        }
+
+        /*
          * ACL rules to check.
          */
-        $action = $this->getAction()->getId() . '.' . $this->getId();
+        $action = $actionId . '.' . $this->getId();
         $controller = '*.' . $this->getId();
         $module = $this->getModule();
         if (null !== $module) {
@@ -65,7 +90,6 @@ abstract class AclController extends Controller
         /*
          * Check against ACL, start from '*' superuser item.
          */
-        $hasAccess = false;
         $authManager = Yii::app()->getAuthManager();
         if (!$user->checkAccess('*')) {
             if (null === $authManager->getAuthItem('*')) {
