@@ -25,7 +25,7 @@ function generateAttributeRow($column, $modelClass) {
 
     if (in_array($dbType, array('BIT', 'BOOL', 'BOOLEAN', 'TINYINT(1)'))) {
         // BOOLEAN
-        echo "\t\t<div class='input boolean-input'><?php echo \$form->dropDownList(\$model, '{$column->name}', array(Yii::t('yii', 'No'), Yii::t('yii', 'Yes'))), array('class' => 'boolean', 'empty' => '')); ?></div>\n";
+        echo "\t\t<div class='input boolean-input'><?php echo \$form->dropDownList(\$model, '{$column->name}', array(Yii::t('yii', 'No'), Yii::t('yii', 'Yes')), array('class' => 'boolean', 'empty' => '')); ?></div>\n";
     } elseif ((false !== stripos($dbType, 'TEXT'))) {
         if (in_array($column->name, array('extra'))) {
             // EXTRA SERIALIZED VALUES

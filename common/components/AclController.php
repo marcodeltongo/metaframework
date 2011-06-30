@@ -21,7 +21,7 @@ abstract class AclController extends Controller
     protected $aclTurnedOff = false;
 
     /**
-     * Setup filters
+     * Setup filters.
      */
     public function filters()
     {
@@ -78,8 +78,7 @@ abstract class AclController extends Controller
                 }
             }
         }
-        if ($hasAccess) {
-            $filterChain->run();
+        if (!$hasAccess) {
             return;
         }
 

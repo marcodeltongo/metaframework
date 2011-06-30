@@ -39,7 +39,7 @@ abstract class CrudController extends AclController
 
         return array(
                 array('allow',
-                        'actions' => array('index', 'create', 'update', 'clone', 'delete'),
+                        'actions' => array('index', 'create', 'update', 'clone', 'delete', 'listData'),
                         'users' => array('@'), # only authenticated users
                 ),
                 array('deny'),
