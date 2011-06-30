@@ -87,6 +87,9 @@ return array(
         'browser' => array(
             'class' => 'Browser',
         ),
+        'imageManager' => array(
+            'class' => 'ImageManager',
+        ),
         'file' => array(
             'class'=>'common.extensions.CFile.CFile',
         ),

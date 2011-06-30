@@ -11,3 +11,4 @@ PHPMailer https://phpmailer.svn.sourceforge.net/svnroot/phpmailer/phpmailer/tags
 PHPass http://www.openwall.com/phpass/ (only PasswordHash.php is needed)
 Browscap http://browsers.garykeith.com/downloads.asp (only php_browscap.ini is needed)
 helpers https://github.com/logicoder/php-helpers
+Upload http://www.verot.net/php_class_upload_download.htm

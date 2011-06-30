@@ -8,9 +8,8 @@ Gii:
 
 New components, setups, other:
 
-- Upload/Multiupload
-- Image
-- Cache
+- http://www.plupload.com/ or http://aquantum-demo.appspot.com/file-upload ?
+- Cache shortcuts
 
 Documentation:
 
