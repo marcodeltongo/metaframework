@@ -32,6 +32,14 @@ abstract class AclController extends Controller
     }
 
     /**
+     * Empty access rules.
+     */
+    public function accessRules()
+    {
+        return array();
+    }
+
+    /**
      * The filter method for 'ACL' filter.
      *
      * This filter reports an error if the applied action cannot be called by user.
