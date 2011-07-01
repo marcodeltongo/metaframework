@@ -126,6 +126,7 @@ abstract class Controller extends CController
          */
         if (isset($_GET['_flushcache'])) {
             Yii::app()->cache->flush();
+            Yii::app()->file->set(Yii::app()->getAssetManager()->getBasePath())->purge();
             $this->redirect(str_replace('_flushcache', '', CURRENT_URL));
         }
 
