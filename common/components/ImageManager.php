@@ -326,8 +326,13 @@ class ImageManager extends CApplicationComponent
     public function deleteAll($image)
     {
         /*
-         * 
+         * Iterate through formats
          */
+        foreach ($this->formats as $alias => $info) {
+            if (file_exists($this->basePath . $alias . '/' . $image)) {
+                @unlink($this->basePath . $alias . '/' . $image);
+            }
+        }
     }
 
     /**

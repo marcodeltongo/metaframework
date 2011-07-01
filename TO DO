@@ -9,19 +9,11 @@ Controllers:
 
 
 
-New form widgets:
-
-* jQueryUI powered MultiSelect-next
-* jQueryUI powered SelectMenu
-
-
-
 Related widget:
 
 * more tests
 * try to add composite keys support
-* integrate jQueryUI powered MultiSelect-next
-* integrate jQueryUI powered SelectMenu
+
 
 
 Cli:
@@ -33,15 +25,12 @@ Cli:
 Gii:
 
 * integrate jQueryUI CSS framework in forms, buttons...
-* Multi-crud, generate CRUD files for * models
-* CRUD dropdown for model name
-* support for imageField
 
 
 
 ImageManager:
 
-* deleteAll implementation
+* Add per-format alias folder instead of autonaming from format name
 * Multi-upload support through http://www.plupload.com/
   or http://aquantum-demo.appspot.com/file-upload
 
