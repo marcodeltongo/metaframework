@@ -448,18 +448,26 @@ header nav ul li ul li a:hover {
 .crudform .row {
     display: table-row;
 }
-.crudform label {
+.crudform .attributes label {
     display: table-cell;
     text-align: right;
     padding: 1em;
 }
-.crudform .input {
+.crudform .attributes .input {
     display: table-cell;
 }
-.crudform select, .crudform textarea {
-    vertical-align: text-top;
+.crudform .relations label {
+    display: block;
+    padding: 1em 0 0 1em;
 }
-.crudform input, .crudform textarea, .crudform select {
+.crudform .relations .input {
+    padding: 1em;
+}
+.crudform textarea {
+    vertical-align: text-top;
+    font-family: 'Open Sans', arial, sans-serif;
+}
+.crudform input, .crudform textarea {
     padding: 0.5em;
     border: 1px solid #d3d7cf;
 
@@ -474,6 +482,10 @@ header nav ul li ul li a:hover {
     -moz-box-shadow: 0px 0px 2px rgba(0,0,0,0);
     -webkit-box-shadow: 0px 0px 2px rgba(0,0,0,0);
     box-shadow: 0px 0px 2px rgba(0,0,0,0);
+}
+.crudform select {
+    min-width: 600px;
+    min-height: 100px;
 }
 .crudform .image-input img {
     vertical-align: text-top;
@@ -502,13 +514,18 @@ header nav ul li ul li a:hover {
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
 }
+.crudform .image-input input[name="__deleteImage"] {
+    margin-left: 1em;
+    padding: 0.25em 0.5em;
+    vertical-align: bottom;
+}
 .crudform .error input, .crudform .error textarea, .crudform .error select {
     -moz-box-shadow: 0px 0px 2px #a40000;
     -webkit-box-shadow: 0px 0px 2px #a40000;
     box-shadow: 0px 0px 2px #a40000;
     border-color: #a40000;
 }
-.crudform input:focus, .crudform textarea:focus, .crudform select:focus {
+.crudform input:focus, .crudform textarea:focus {
     -moz-box-shadow: 0px 0px 2px #97c4f0;
     -webkit-box-shadow: 0px 0px 2px #97c4f0;
     box-shadow: 0px 0px 2px #97c4f0;
@@ -572,7 +589,7 @@ header nav ul li ul li a:hover {
     width: 10%;
     text-align: right;
 }
-.crudform .form-buttons input {
+.crudform .form-buttons input, .crudform input[name="__deleteImage"] {
     color: #f7f8f5;
     font-weight: bold;
     text-shadow: 1px 1px 0px #000000;
@@ -602,7 +619,7 @@ header nav ul li ul li a:hover {
     filter: progid:DXImageTransform.Microsoft.gradient(startColorStr='#73d216', EndColorStr='#3465a4');
     border-color: #0a3050;
 }
-.crudform .form-buttons input[name="_delete"] {
+.crudform .form-buttons input[name="_delete"], .crudform input[name="__deleteImage"] {
     background-color: #a40000;
     background-image: -webkit-gradient(linear, left top, left bottom, from(#cc0000), to(#a40000));
     background-image: -webkit-linear-gradient(top, #cc0000, #a40000);

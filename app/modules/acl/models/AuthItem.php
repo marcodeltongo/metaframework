@@ -67,6 +67,7 @@ class AuthItem extends ActiveRecord
                 array('type', 'in', 'range' => array(0, 1, 2)),
                 array('name', 'length', 'max' => 255),
                 array('name', 'filter', 'filter' => 'strtolower'),
+                array('name', 'unique'),
                 array('description, bizrule, data', 'safe'),
                 array('name, type, description', 'safe', 'on' => 'search'),
         );

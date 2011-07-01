@@ -13,6 +13,26 @@
  */
 class ActiveForm extends CActiveForm
 {
+	/**
+	 * Initializes the widget.
+	 * This renders the form open tag.
+	 */
+	public function init()
+	{
+        parent::init();
+	}
+
+	/**
+	 * Runs the widget.
+	 * This registers the necessary javascript code and renders the form close tag.
+	 */
+	public function run()
+	{
+        parent::run();
+
+        $this->widget('common.widgets.selectmenu.jqSelectMenu');
+        $this->widget('common.widgets.multiselect.jqMultiSelect');
+    }
 
     /**
      * Renders a file input field for a model attribute or image if present.

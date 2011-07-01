@@ -158,7 +158,7 @@ abstract class CrudController extends AclController
         $criteria = new CDbCriteria;
         $criteria->limit = $rows;
         $criteria->offset = $offset;
-        $criteria->select = array_untrim($cols, '`');;
+        $criteria->select = array_untrim($cols, '`');
         $records = $this->model->findAll($criteria);
 
         $rows = array();

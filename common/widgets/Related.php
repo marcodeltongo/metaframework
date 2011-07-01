@@ -119,7 +119,7 @@ class Related extends CWidget
             $this->field = $this->model->getMetaData()->tableSchema->primaryKey;
         }
         if (is_array($this->field) or !is_string($this->field)) {
-            throw new CException("Composite foreign key not supported.");
+            throw new CException("Composite foreign key not supported: " . var_export($this->field, true));
         }
         if (!$this->model->hasAttribute($this->field)) {
             throw new CException("Foreign key '{$this->field}' not found in model definition.");
@@ -138,7 +138,7 @@ class Related extends CWidget
             $this->relatedField = $this->related->getMetaData()->tableSchema->primaryKey;
         }
         if (is_array($this->relatedField)) {
-            throw new CException("Related composite key not supported.");
+            throw new CException("Related composite key not supported: " . var_export($this->relatedField, true));
         }
         if (!is_string($this->relatedField) or !$this->related->hasAttribute($this->relatedField)) {
             throw new CException("Related key not found in related model definition.");
@@ -183,7 +183,17 @@ class Related extends CWidget
         /*
          * Get rows that can be related to model
          */
-        $this->availableRows = $this->related->findAll();
+        $criteria = new CDbCriteria();
+        if ($this->relation->className == get_class($this->model)) {
+            /*
+             * Exclude this to avoid recursion
+             */
+            if (!is_array($this->field) and !is_array($this->relatedField)) {
+                $criteria->condition = $this->model->getMetaData()->tableSchema->primaryKey . ' <> :PK';
+                $criteria->params = array(':PK' => $this->model->getPrimaryKey());
+            }
+        }
+        $this->availableRows = $this->related->findAll($criteria);
     }
 
     /**

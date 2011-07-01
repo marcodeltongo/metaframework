@@ -12,7 +12,7 @@
  * Unactivated accounts and forgotten password requests auto-expire.
  * Facebook, Twitter, Live integration.
  */
-class UserController extends Controller
+class UserController extends AclController
 {
 
     public function accessRules()

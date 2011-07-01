@@ -5,9 +5,6 @@
  *
  * Proxy for jqGrid - {see @link http://www.trirand.com/blog/}
  *
- * If your use XML or JSON data sources, you'll need to write an action which
- * takes the following GET parameters:
- *
  * @author Marco Del Tongo <info@marcodeltongo.com>
  * @copyright Copyright (c) 2011, Marco Del Tongo
  *

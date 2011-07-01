@@ -3,6 +3,12 @@ ________________________________________________________________________________
 
 
 
+Controllers:
+
+* add flush assets to flush cache
+
+
+
 New form widgets:
 
 * jQueryUI powered MultiSelect-next
