@@ -44,10 +44,6 @@ class ImageBehavior extends CActiveRecordBehavior
         $owner = $this->getOwner();
         $class = get_class($owner);
 
-        if (!isset($_FILES[$class])) {
-            return;
-        }
-
         /*
          * Manage uploads
          */
@@ -57,7 +53,8 @@ class ImageBehavior extends CActiveRecordBehavior
              */
             if (isset($_POST[$class][$name . '__deleteImage'])
                     and (1 == $_POST[$class][$name . '__deleteImage'])) {
-                Yii::app()->imageManager->deleteAll($owner->$name);
+
+                Yii::app()->imageManager->deleteAll($_POST[$class][$name . '__oldImage']);
                 $owner->$name = '';
             }
             /*

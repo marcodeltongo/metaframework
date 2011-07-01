@@ -328,6 +328,9 @@ class ImageManager extends CApplicationComponent
         /*
          * Iterate through formats
          */
+        if (file_exists($this->basePath . 'original/' . $image)) {
+            @unlink($this->basePath . 'original/' . $image);
+        }
         foreach ($this->formats as $alias => $info) {
             if (file_exists($this->basePath . $alias . '/' . $image)) {
                 @unlink($this->basePath . $alias . '/' . $image);

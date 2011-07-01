@@ -49,17 +49,31 @@ class ActiveForm extends CActiveForm
      */
     public function imageField($model, $attribute, $alias = 'thumb', $canDelete = true, $inputOptions = array(), $imgOptions = array())
     {
+        /*
+         * Compatibility check
+         */
+        if (is_array($alias)) {
+            $inputOptions = $alias;
+            $alias = 'thumb';
+        }
+        /*
+         * Implementation
+         */
         if ($model->isNewRecord or empty($model->$attribute)) {
             return $this->fileField($model, $attribute, $inputOptions);
         } else {
             $alt = (isset($imgOptions['alt'])) ? $imgOptions['alt'] : '';
             $html = Yii::app()->imageManager->html_alias($model->$attribute, $alias, $alt, $imgOptions);
+            $inputOptions = CMap::mergeArray(array('style' => 'display: none'), $inputOptions);
+            $modelName = get_class($model);
 
             if ($canDelete) {
-                $js = 'var je = jQuery(this); je.fadeOut(\'fast\', function() { je.prev().fadeOut(\'fast\', function() { je.next().attr(\'value\',\'1\').next().next().fadeIn(); }); });';
+                $js = 'var je = jQuery(this); je.fadeOut(\'fast\', function() { je.prev().fadeOut(\'fast\', function() { je.next().attr(\'value\',\'1\').next().next().next().fadeIn().next().remove(); }); });';
                 $html .= '<input name="__deleteImage" type="button" onclick="' . $js . '" value="' . Yii::t('yii', 'Delete image') . '" />';
-                $html .= '<input type="hidden" id="' . $attribute . '__deleteImage" name="' . $attribute . '__deleteImage" value="0" />';
-                $html .= $this->fileField($model, $attribute, array('style' => 'display: none'));
+                $html .= '<input type="hidden" id="' . $modelName . '[' . $attribute . '__deleteImage]" name="' . $modelName . '[' . $attribute . '__deleteImage]" value="0" />';
+                $html .= '<input type="hidden" id="' . $modelName . '[' . $attribute . '__oldImage]" name="' . $modelName . '[' . $attribute . '__oldImage]" value="' . $model->$attribute . '" />';
+                $html .= $this->fileField($model, $attribute, $inputOptions);
+                $html .= $this->hiddenField($model, $attribute);
             }
 
             return $html;
