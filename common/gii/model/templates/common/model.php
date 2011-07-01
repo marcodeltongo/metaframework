@@ -132,9 +132,9 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
     }
 
     /**
-     * Retrieves the list of customized attribute labels (name => label)
+     * Retrieves the list of customized attribute labels
      *
-     * @return array customized attribute labels (name=>label)
+     * @return array customized attribute labels
      */
     public function attributeLabels()
     {
@@ -147,6 +147,28 @@ if (!empty($relation)) {
     echo "\n\t\t\t# Relations\n";
     foreach($relations as $name=>$relation) {
         echo "\t\t\t'$name' => Yii::t('model_{$modelClass}', '$name'),\n";
+    }
+}
+?>
+        );
+    }
+
+    /**
+     * Retrieves the list of customized attribute titles
+     *
+     * @return array customized attribute labels
+     */
+    public function attributeTitles($name)
+    {
+        return array(
+<?php
+foreach($labels as $name => $label) {
+    echo "\t\t\t'$name' => Yii::t('model_{$modelClass}', ''),\n";
+}
+if (!empty($relation)) {
+    echo "\n\t\t\t# Relations\n";
+    foreach($relations as $name=>$relation) {
+        echo "\t\t\t'$name' => Yii::t('model_{$modelClass}', ''),\n";
     }
 }
 ?>

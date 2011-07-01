@@ -189,6 +189,7 @@ body {
     font-family: 'Open Sans', arial, sans-serif;
     background-color: #ecf0eb;
     color: #2e3436;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.01);
 }
 
 #breadcrumbs a {
@@ -234,6 +235,7 @@ header nav {
     background-clip: padding-box;
 
     border: 1px solid #000000;
+    border-top: 0px;
 }
 header nav ul {
     list-style: none;
@@ -245,11 +247,15 @@ header nav li {
     display: block;
     float: left;
     overflow: visible;
-    padding: 4px;
+    padding-bottom: 4px;
     position: relative;
+    border-top: 4px solid transparent;
 }
 header nav > ul > li:last-child {
     float: right;
+}
+header nav > ul > li:hover {
+    border-top: 4px solid #ffffff;
 }
 header nav ul li a, header nav ul li span {
     display: block;
@@ -428,10 +434,15 @@ header nav ul li ul li a:hover {
 }
 
 .crudform {
+    display: table;
+    border-spacing: 1em 0.5em;
+    border-collapse: collapse;
+    width: 940px;
 }
 .crudform fieldset {
-    display: table;
-    padding: 1em;
+    display: table-row-group;
+    border-collapse: separate;
+    padding: 10px;
     margin-bottom: 2em;
 
     background-color: #f7f8f5;
@@ -446,22 +457,25 @@ header nav ul li ul li a:hover {
     background-clip: padding-box;
 }
 .crudform .row {
-    display: table-row;
 }
-.crudform .attributes label {
+.crudform label {
     display: table-cell;
     text-align: right;
-    padding: 1em;
+    width: 150px;
 }
-.crudform .attributes .input {
+.crudform .input {
     display: table-cell;
 }
-.crudform .relations label {
-    display: block;
-    padding: 1em 0 0 1em;
+.crudform .attribute label {
 }
-.crudform .relations .input {
-    padding: 1em;
+.crudform .attribute .input {
+}
+.crudform .relation label {
+    line-height: 2em;
+    vertical-align: top;
+}
+.crudform .relation .input {
+    display: table-cell;
 }
 .crudform textarea {
     vertical-align: text-top;
@@ -484,7 +498,7 @@ header nav ul li ul li a:hover {
     box-shadow: 0px 0px 2px rgba(0,0,0,0);
 }
 .crudform select {
-    min-width: 600px;
+    min-width: 480px;
     min-height: 100px;
 }
 .crudform .image-input img {
@@ -532,8 +546,10 @@ header nav ul li ul li a:hover {
     border: 1px solid #97c4f0;
 }
 .crudform .errorMessage {
-    padding: 0.75em 1em;
-    margin-left: 1em;
+    display: table-cell;
+    vertical-align: middle;
+
+    padding: 0em 1em;
     background-color: #a40000;
     color: #f7f8f5;
     font-weight: bold;
@@ -565,7 +581,7 @@ header nav ul li ul li a:hover {
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
 
-    margin: 0px 2em 2em 2em;
+    margin: 0 0 2em 1.5em;
 }
 
 .crudform .form-buttons {

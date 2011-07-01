@@ -19,20 +19,21 @@
  */
 function generateAttributeRow($column, $modelClass) {
     $dbType = strtoupper($column->dbType);
+    $title = "'title' => \$model->attributeTitle('{$column->name}')";
 
     echo "\t<div class='{$modelClass}-{$column->name} attribute row'>\n";
     echo "\t\t<?php echo \$form->labelEx(\$model, '{$column->name}'); ?>\n";
 
     if (in_array($dbType, array('BIT', 'BOOL', 'BOOLEAN', 'TINYINT(1)'))) {
         // BOOLEAN
-        echo "\t\t<div class='input boolean-input'><?php echo \$form->dropDownList(\$model, '{$column->name}', array(Yii::t('yii', 'No'), Yii::t('yii', 'Yes')), array('class' => 'boolean', 'empty' => '')); ?></div>\n";
-    } elseif ((false !== stripos($dbType, 'TEXT'))) {
+        echo "\t\t<div class='input boolean-input'><?php echo \$form->dropDownList(\$model, '{$column->name}', array(Yii::t('yii', 'No'), Yii::t('yii', 'Yes')), array($title, 'class' => 'boolean', 'empty' => '')); ?></div>\n";
+    } elseif (false !== stripos($dbType, 'TEXT')) {
         if (in_array($column->name, array('extra'))) {
             // EXTRA SERIALIZED VALUES
-            echo "\t\t<div class='input extra-input'><?php // echo \$form->textField(\$model, '{$column->name}[\"EXTRAFIELDNAME\"]', array('size' => 50)); ?></div>\n";
+            echo "\t\t<!--<div class='input extra-input'><?php // echo \$form->textField(\$model, '{$column->name}[\"EXTRAFIELDNAME\"]', array($title, 'size' => 50)); ?></div>-->\n";
         } else {
             // TEXTAREA
-            echo "\t\t<div class='input textarea'><?php echo \$form->textArea(\$model, '{$column->name}', array('rows' => 8, 'cols' => 50)); ?></div>\n";
+            echo "\t\t<div class='input textarea'><?php echo \$form->textArea(\$model, '{$column->name}', array($title, 'rows' => 8, 'cols' => 50)); ?></div>\n";
         }
     } elseif (in_array($dbType, array('DATE', 'DATETIME', 'TIME', 'TIMESTAMP'))) {
         $mode = ($dbType == 'TIMESTAMP') ? 'datetime' : strtolower($dbType);
@@ -41,6 +42,7 @@ function generateAttributeRow($column, $modelClass) {
         echo "\t\t\t'attribute' => '{$column->name}',\n";
         echo "\t\t\t'mode' => '$mode',\n";
         echo "\t\t\t'options' => array(),\n";
+        echo "\t\t\t'htmlOptions' => array($title),\n";
         echo "\t\t)); ?></div>\n";
     } elseif (substr($dbType, 0, 4) == 'ENUM') {
         echo sprintf("\t\t<div class='input enum-input'><?php echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
@@ -51,6 +53,8 @@ function generateAttributeRow($column, $modelClass) {
             echo "\t\t\t'$value' => Yii::t('app', '" . $value . "') ,\n";
         }
         echo '\t\t)); ?>\n';
+    } elseif (false !== stripos($column->name, 'image')) {
+      echo "\t\t<div class='input image-input'><?php echo \$form->imageField(\$model, '{$column->name}', array($title)); ?></div>\n";
     } else {
         if (in_array($column->name, array('password', 'pass', 'passwd', 'passcode'))) {
             $inputField = 'passwordField';
@@ -59,10 +63,10 @@ function generateAttributeRow($column, $modelClass) {
         }
 
         if ($column->type !== 'string' or $column->size === null) {
-            echo "\t\t<div class='input text-input'><?php echo \$form->{$inputField}(\$model, '{$column->name}', array('size' => 50)); ?></div>\n";
+            echo "\t\t<div class='input text-input'><?php echo \$form->{$inputField}(\$model, '{$column->name}', array($title, 'size' => 50)); ?></div>\n";
         } else {
             $size = (($maxLength = $column->size) < 50) ? $column->size : 50;
-            echo "\t\t<div class='input text-input'><?php echo \$form->{$inputField}(\$model, '{$column->name}', array('size' => $size, 'maxlength' => $maxLength)); ?></div>\n";
+            echo "\t\t<div class='input text-input'><?php echo \$form->{$inputField}(\$model, '{$column->name}', array($title, 'size' => $size, 'maxlength' => $maxLength)); ?></div>\n";
         }
     }
 
@@ -117,15 +121,23 @@ foreach ($relations as $related => $relation)
     if ($relation[0] == 'CStatRelation') {
         continue;
     }
+
+    $attributeName = $relation[2];
+    if (!in_array($relation[0], array('CBelongsToRelation', 'CHasOneRelation'))) {
+        $attributeName = $related;
+    }
 ?>
     <div class="<?php echo "{$modelHtmlId}-{$related}"; ?> relation row">
-        <?php echo "<?php echo \$form->labelEx(\$model, '$related'); ?>\n"; ?>
+        <?php echo "<?php echo \$form->labelEx(\$model, '$attributeName'); ?>\n"; ?>
         <?php echo "<div class='input relation-input'><?php \$this->widget('common.widgets.Related', array(
             'form' => \$form,
             'model' => \$model,
             'relation' => '$related',
+            'htmlOptions' => array(
+                'title' => \$model->attributeTitle('{$related}'),
+            ),
         )); ?></div>\n"; ?>
-        <?php echo "<?php echo \$form->error(\$model, '{$related}'); ?>\n"; ?>
+        <?php echo "<?php echo \$form->error(\$model, '{$attributeName}'); ?>\n"; ?>
     </div>
 
 <?php

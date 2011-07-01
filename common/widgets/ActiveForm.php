@@ -30,6 +30,7 @@ class ActiveForm extends CActiveForm
 	{
         parent::run();
 
+        $this->widget('common.widgets.tooltip.jqTooltip');
         $this->widget('common.widgets.selectmenu.jqSelectMenu');
         $this->widget('common.widgets.multiselect.jqMultiSelect');
     }

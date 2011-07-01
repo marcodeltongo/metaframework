@@ -1,0 +1,9 @@
+p#tip {
+    display: none;
+    position: absolute;
+    padding: 10px;
+    left: 5px;
+    font-size: 0.8em;
+    background-color: white;
+    z-index: 9999;
+}

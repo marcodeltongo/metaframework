@@ -1,9 +1,9 @@
 <?php
 
 /**
- * jqMultiSelect widget class file.
+ * jqTooltip widget class file.
  *
- * Proxy for jqMultiSelect
+ * Proxy for jqTooltip
  *
  * @author Marco Del Tongo <info@marcodeltongo.com>
  * @copyright Copyright (c) 2011, Marco Del Tongo
@@ -11,7 +11,7 @@
  * @license http://opensource.org/licenses/mit-license Licensed under the MIT license.
  * @version 1.0
  */
-class jqMultiSelect extends CWidget
+class jqTooltip extends CWidget
 {
     /**
      * Options
@@ -36,13 +36,13 @@ class jqMultiSelect extends CWidget
      *
      * @var object
      */
-    private $_cssFiles = array('ui.multiselect.css');
+    private $_cssFiles = array('tip.css');
     /**
      * JS files to include
      *
      * @var object
      */
-    private $_jsFiles = array('ui.multiselect.js');
+    private $_jsFiles = array('tip.js');
 
     /**
      * Check parameters and try auto-detection.
@@ -82,7 +82,7 @@ class jqMultiSelect extends CWidget
 
         $encodedOptions = CJavaScript::encode(array_merge(array(), $this->options));
 
-        $js = "jQuery('select[multiple]').multiselect({$encodedOptions});";
+        $js = "jQuery('[title]').tip({$encodedOptions});";
 
         $this->_clientScript->registerScript('Yii.' . get_class($this), $js, CClientScript::POS_END);
     }

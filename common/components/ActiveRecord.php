@@ -32,9 +32,27 @@ class ActiveRecord extends CActiveRecord
             return;
         }
 
+        /*
+         * Prepare data
+         */
         $attributes = array_flip($safeOnly ? $this->getSafeAttributeNames() : $this->attributeNames());
         $relations = $this->getMetaData()->relations;
 
+        /*
+         * Check empty relations from HTML select.
+         */
+        if (isset($values['__relations'])) {
+            foreach ($values['__relations'] as $rel) {
+                if (!isset($values[$rel])) {
+                    $this->$rel = array();
+                }
+            }
+            unset($values['__relations']);
+        }
+
+        /*
+         * Save data
+         */
         foreach ($values as $name => $value) {
             if (isset($attributes[$name]) or isset($relations[$name])) {
                 $this->$name = $value;
@@ -312,6 +330,29 @@ class ActiveRecord extends CActiveRecord
         );
 
         return $behaviors;
+    }
+
+    /**
+     * Retrieves the list of customized attribute titles
+     *
+     * @return array customized attribute labels
+     */
+    public function attributeTitles()
+    {
+        return array(
+        );
+    }
+
+    /**
+     * Retrieves a customized attribute title
+     *
+     * @return string customized attribute title
+     */
+    public function attributeTitle($name)
+    {
+        $titles = $this->attributeTitles();
+
+        return (isset($titles[$name])) ? $titles[$name] : '';
     }
 
 }

@@ -206,9 +206,10 @@ class Related extends CWidget
             case 'CManyManyRelation':
             case 'CHasManyRelation':
                 $this->htmlOptions['multiple'] = 'multiple';
-                isset($this->htmlOptions['empty']) or $this->htmlOptions['empty'] = '';
+                #isset($this->htmlOptions['empty']) or $this->htmlOptions['empty'] = '';
                 $name = get_class($this->model) . '[' . $this->relation->name . ']';
                 $items = Helper::listData($this->availableRows, $this->relatedField, $this->show, null, $this->separator);
+                echo CHtml::hiddenField(get_class($this->model) . '[__relations][]', $this->relation->name);
                 echo CHtml::listBox($name, $this->selectedRows, $items, $this->htmlOptions);
                 break;
 
