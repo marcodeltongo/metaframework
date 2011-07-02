@@ -36,7 +36,7 @@ class jqTooltip extends CWidget
      *
      * @var object
      */
-    private $_cssFiles = array('tip.css');
+    private $_cssFiles = array();
     /**
      * JS files to include
      *
