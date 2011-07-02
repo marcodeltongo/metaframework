@@ -158,7 +158,7 @@ if (!empty($relation)) {
      *
      * @return array customized attribute labels
      */
-    public function attributeTitles($name)
+    public function attributeTitles()
     {
         return array(
 <?php
