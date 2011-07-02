@@ -3,6 +3,12 @@ ________________________________________________________________________________
 
 
 
+Grid:
+
+* Add SEARCH support to CrudController::listData
+
+
+
 Related widget:
 
 * more tests
