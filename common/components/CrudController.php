@@ -155,13 +155,34 @@ abstract class CrudController extends AclController
             $offset = $rows * (--$page);
         }
 
+        /*
+         * Prepare criteria
+         */
         $criteria = new CDbCriteria;
         $criteria->limit = $rows;
         $criteria->offset = $offset;
         $criteria->select = array_untrim($cols, '`');
-        $records = $this->model->findAll($criteria);
 
+        /*
+         * Sorting
+         */
+        if (!in_array(strtolower($sord), array('asc', 'desc'))) {
+            $sord = 'asc';
+        }
+        if (!empty($sidx) and !is_numeric($sidx) and $this->model->hasAttribute($sidx)) {
+            $criteria->order = "`$sidx` $sord";
+        } else {
+            $pk = $this->model->getMetaData()->tableSchema->primaryKey;
+            if (!is_array($pk)) {
+                $criteria->order = "`$pk` DESC";
+            }
+        }
+
+        /*
+         * Retrieve and prepare data
+         */
         $rows = array();
+        $records = $this->model->findAll($criteria);
         foreach ($records as $record) {
             $cell = array();
             foreach ($cols as $col) {
@@ -170,13 +191,15 @@ abstract class CrudController extends AclController
             $rows[] = array('id' => $record->getPrimaryKey(), 'cell' => $cell);
         }
 
+        /*
+         * Send JSON data
+         */
         $data = array(
                 'total' => $total,
                 'page' => $page,
                 'records' => count($records),
                 'rows' => $rows,
         );
-
         echo CJSON::encode($data);
     }
 
