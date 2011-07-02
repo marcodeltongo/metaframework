@@ -243,31 +243,34 @@ header nav ul {
     padding: 0;
     z-index: 1000;
 }
-header nav li {
+header nav ul li {
     display: block;
-    float: left;
     overflow: visible;
-    padding-bottom: 4px;
-    position: relative;
-    border-top: 4px solid transparent;
+}
+header nav > ul > li {
+    float: left;
+    border-top: 3px solid transparent;
+    margin: 0px 4px;
+}
+header nav > ul > li:hover {
+    border-color: #ffffff;
 }
 header nav > ul > li:last-child {
     float: right;
 }
-header nav > ul > li:hover {
-    border-top: 4px solid #ffffff;
-}
 header nav ul li a, header nav ul li span {
     display: block;
     height: 20px;
-    padding: 2px 12px;
     text-decoration: none;
     font-weight: bold;
     line-height: 16px;
     color: #ecf0eb;
+    padding: 5px 8px;
 }
-header nav ul li.icon a {
-    padding: 0;
+header nav > ul > li > a, header nav > ul > li > span {
+}
+header nav ul li.icon a, header nav ul li.icon span {
+    padding: 3px 8px 7px 8px;
 }
 header nav ul li a:hover, header nav ul li span:hover {
     color: #ffffff;
@@ -278,8 +281,6 @@ header nav li:hover > ul {
 }
 header nav ul li ul {
     position: absolute;
-    min-width: 100%;
-    top: 100%;
     background: #000000;
     color: #ecf0eb;
     display: none;
@@ -295,6 +296,8 @@ header nav ul li ul {
     -moz-background-clip: padding;
     -webkit-background-clip: padding-box;
     background-clip: padding-box;
+}
+header nav ul li ul li {
 }
 header nav ul li ul li a {
 }
