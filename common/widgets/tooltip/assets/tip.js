@@ -1,3 +1,4 @@
+/* "Very simple tooltips" by Marco Del Tongo <info@marcodeltongo.com> - Public Domain */
 (function($){
     $.fn.extend({
         tip: function() {
@@ -10,13 +11,12 @@
                     this.left = (e.pageX - 6);
 
                     jQuery('body').append( '<p id="tip" class="ui-state-highlight ui-corner-all">' + this.t + '</p>' );
-                    jQuery('p#tip').css("top", this.top+"px").css("left", this.left+"px").fadeIn("fast");
-
+                    jQuery('p#tip').css("top", this.top+"px").css("left", this.left+"px").fadeIn(300);
                 },
                 function() {
                     if (!this.t) return;
                     this.title = this.t;
-                    jQuery("p#tip").fadeOut(function() { jQuery(this).remove(); });
+                    jQuery("p#tip").fadeOut(150, function() { jQuery(this).remove(); });
                 }
             ).mousemove(
                 function(e) {
