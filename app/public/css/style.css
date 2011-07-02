@@ -437,16 +437,14 @@ header nav ul li ul li a:hover {
 }
 
 .crudform {
-    display: table;
-    border-spacing: 1em 0.5em;
     border-collapse: collapse;
-    width: 940px;
 }
 .crudform fieldset {
     display: table-row-group;
     border-collapse: separate;
-    padding: 10px;
+    padding: 10px 0px;
     margin-bottom: 2em;
+    border-spacing: 1em 0.5em;
 
     background-color: #f7f8f5;
     border: 1px solid #d3d7cf;
