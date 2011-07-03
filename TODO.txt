@@ -3,6 +3,12 @@ ________________________________________________________________________________
 
 
 
+Widgets:
+
++ Add a Meow proxy widget for flash messages.
+
+
+
 Grid:
 
 * Add SEARCH support to CrudController::listData

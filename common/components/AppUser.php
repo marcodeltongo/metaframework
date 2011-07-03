@@ -61,7 +61,42 @@ class AppUser extends CWebUser
      */
     public function can($operation, $params = array(), $allowCaching = true)
     {
-        return parent::checkAccess($operation, $params, $allowCaching);
+        /*
+         * If array, iterate on items.
+         */
+        if (is_array($operation)) {
+            foreach ($operation as $item) {
+                if ($this->can($item)) {
+                    return true;
+                }
+            }
+            return false;
+        }
+        /*
+         * Check requested first.
+         */
+        if ($this->checkAccess($operation, $params, $allowCaching)) {
+            return true;
+        }
+        /*
+         * Check superuser permissions.
+         */
+        if (!$this->checkAccess('*', array(), $allowCaching) and (false !== strpos($operation, '.'))) {
+            /*
+             * Go up the permissions tree.
+             */
+            $op = $operation;
+            while ($op = strpbrk($op, '.')) {
+                if ($this->checkAccess('*' . $op, array(), $allowCaching)) {
+                    return true;
+                }
+                $op = substr($op, 1);
+            }
+        } else {
+            return true;
+        }
+
+        return false;
     }
 
     /**
@@ -71,7 +106,7 @@ class AppUser extends CWebUser
      */
     public function role($operation, $params = array(), $allowCaching = true)
     {
-        return parent::checkAccess($operation, $params, $allowCaching);
+        return $this->checkAccess($operation, $params, $allowCaching);
     }
 
 }

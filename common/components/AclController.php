@@ -69,9 +69,9 @@ abstract class AclController extends Controller
                 if (!array_key_exists('actions', $conRules) or in_array($actionId, $rule['actions'])) {
                     if (in_array('*', $rule['users'])
                             or (!$user->getIsGuest() and
-                                (in_array($user->getName(), $rule['users']) or in_array('@', $rule['users'])))
+                            (in_array($user->getName(), $rule['users']) or in_array('@', $rule['users'])))
                             or ($user->getIsGuest() and
-                                (in_array($user->getName(), $rule['users']) or in_array('?', $rule['users'])))) {
+                            (in_array($user->getName(), $rule['users']) or in_array('?', $rule['users'])))) {
                         $hasAccess = true;
                         break;
                     }
@@ -98,27 +98,19 @@ abstract class AclController extends Controller
          * Check against ACL, start from '*' superuser item.
          */
         $authManager = Yii::app()->getAuthManager();
-        if (!$user->checkAccess('*')) {
-            if (null === $authManager->getAuthItem('*')) {
+        if (!$user->checkAccess('*') and (null === $authManager->getAuthItem('*'))) {
+            /*
+             * Superuser permission rule doesn't exist, try controller.
+             */
+            if (!$user->checkAccess($controller) and (null === $authManager->getAuthItem($controller))) {
                 /*
-                 * Superuser permission rule doesn't exist, try controller.
+                 * Controller permission rule doesn't exist, try action.
                  */
-                if (!$user->checkAccess($controller)) {
-                    if (null === $authManager->getAuthItem($controller)) {
-                        /*
-                         * Controller permission rule doesn't exist, try action.
-                         */
-                        if (!$user->checkAccess($action)) {
-                            if (null === $authManager->getAuthItem($action)) {
-                                throw new CHttpException(403, Yii::t('yii', "The action '$action' has no applicable authorization rules."));
-                            }
-                        } else {
-                            $hasAccess = true;
-                        }
-                    }
-                } else {
-                    $hasAccess = true;
+                if (!$user->checkAccess($action) and (null === $authManager->getAuthItem($action))) {
+                    throw new CHttpException(403, Yii::t('yii', "The action '$action' has no applicable authorization rules."));
                 }
+            } else {
+                $hasAccess = true;
             }
         } else {
             $hasAccess = true;
