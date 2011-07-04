@@ -131,22 +131,35 @@ abstract class CrudController extends AclController
     /**
      * List models as JSON
      *
-     * @param bool $_search
+     * @param bool $_search List or search ?
      * @param int $nd
      * @param int $page Get the requested page. By default grid sets this to 1
      * @param int $rows Get how many rows we want to have into the grid
-     * @param int $sidx Get index row - i.e. user click to sort.
+     * @param string $sidx Get index row
      * @param string $sord Sorting order
+     * @param string $searchField
+     * @param string $searchString
+     * @param string $searchOper
+     * @param string $filters
      */
-    public function actionListData($_search, $nd, $page = 1, $rows = 20, $sidx ='1', $sord = 'asc')
+    public function actionListData($_search = false, $nd = 0, $page = 1, $rows = 20, $sidx = false, $sord = 'asc', $searchField = false, $searchString = false, $searchOper = 'eq', $filters = '')
     {
         $this->model = new $this->modelClass('search');
+
+        /*
+         * Prepare parameters
+         */
+        $_search = $_search === 'true';
         $page = (int) $page;
         $rows = (int) $rows;
-        $offset = ($page == 1) ? 0 : $rows * ($page - 1);
+        $sord = (!in_array(strtolower($sord), array('asc', 'desc'))) ? 'asc' : $sord;
         $cols = $this->model->gridAttributes();
         $total = $this->model->count();
 
+        /*
+         * Calculare offset
+         */
+        $offset = ($page == 1) ? 0 : $rows * ($page - 1);
         while (($offset > 0) and ($offset >= $total)) {
             if (--$page == 1) {
                 $offset = 0;
@@ -164,12 +177,88 @@ abstract class CrudController extends AclController
         $criteria->select = array_untrim($cols, '`');
 
         /*
+         * Search
+         *
+         * Available option are:
+         * ['eq','ne','lt','le','gt','ge',
+         * 'bw','bn','ew','en','cn','nc',
+         * 'in','ni']
+         *
+         * The corresponding texts are in language file and mean the following:
+         * ['equal','not equal','less','less or equal','greater','greater or equal',
+         * 'begins with','does not begin with','ends with','does not end with','contains','does not contain',
+         * 'is in','is not in']
+         */
+        if ($_search) {
+            $filters = CJSON::decode($filters);
+            /*
+             * If from dialog, map to filter
+             */
+            if (false !== $searchField) {
+                $filters = array(
+                        'groupOp' => 'AND',
+                        'rules' => array(array('field' => $searchField, 'op' => $searchOper, 'data' => $searchString)),
+                );
+            }
+            /*
+             * Map rules to DbCriteria conditions
+             */
+            if (isset($filters['rules'])) {
+                foreach ($filters['rules'] as $rule) {
+                    switch ($rule['op']) {
+                        case 'eq':
+                            $criteria->addCondition("{$rule['field']} = {$rule['data']}", $filters['groupOp']);
+                            break;
+                        case 'ne':
+                            $criteria->addCondition("{$rule['field']} <> {$rule['data']}", $filters['groupOp']);
+                            break;
+                        case 'lt':
+                            $criteria->addCondition("{$rule['field']} < {$rule['data']}", $filters['groupOp']);
+                            break;
+                        case 'le':
+                            $criteria->addCondition("{$rule['field']} <= {$rule['data']}", $filters['groupOp']);
+                            break;
+                        case 'gt':
+                            $criteria->addCondition("{$rule['field']} > {$rule['data']}", $filters['groupOp']);
+                            break;
+                        case 'ge':
+                            $criteria->addCondition("{$rule['field']} >= {$rule['data']}", $filters['groupOp']);
+                            break;
+
+                        case 'bw':
+                            $criteria->addSearchCondition("{$rule['field']}", "{$rule['data']}%", false, $filters['groupOp'], 'LIKE');
+                            break;
+                        case 'bn':
+                            $criteria->addSearchCondition("{$rule['field']}", "{$rule['data']}%", false, $filters['groupOp'], 'NOT LIKE');
+                            break;
+                        case 'ew':
+                            $criteria->addSearchCondition("{$rule['field']}", "%{$rule['data']}", false, $filters['groupOp'], 'LIKE');
+                            break;
+                        case 'en':
+                            $criteria->addSearchCondition("{$rule['field']}", "%{$rule['data']}", false, $filters['groupOp'], 'NOT LIKE');
+                            break;
+                        case 'cn':
+                            $criteria->addSearchCondition("{$rule['field']}", "%{$rule['data']}%", false, $filters['groupOp'], 'LIKE');
+                            break;
+                        case 'nc':
+                            $criteria->addSearchCondition("{$rule['field']}", "%{$rule['data']}%", false, $filters['groupOp'], 'NOT LIKE');
+                            break;
+
+                        case 'in':
+                            $criteria->addInCondition("{$rule['field']}", explode(',', $rule['data']), $filters['groupOp']);
+                            break;
+                        case 'ni':
+                            $criteria->addNotInCondition("{$rule['field']}", explode(',', $rule['data']), $filters['groupOp']);
+                            break;
+                    }
+                }
+            }
+        }
+
+        /*
          * Sorting
          */
-        if (!in_array(strtolower($sord), array('asc', 'desc'))) {
-            $sord = 'asc';
-        }
-        if (!empty($sidx) and !is_numeric($sidx) and $this->model->hasAttribute($sidx)) {
+        if ((false !== $sidx) and $this->model->hasAttribute($sidx)) {
             $criteria->order = "`$sidx` $sord";
         } else {
             $pk = $this->model->getMetaData()->tableSchema->primaryKey;

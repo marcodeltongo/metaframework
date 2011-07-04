@@ -32,6 +32,24 @@ class jqGrid extends CWidget
      */
     public $options = array();
     /**
+     * jqGrid table options.
+     *
+     * @var array
+     */
+    public $tableOptions = array('class' => 'scroll', 'cellpadding' => 0, 'cellspacing' => 0);
+    /**
+     * Whether to use a filter toolbar in the top of the grid.
+     *
+     * @var boolean
+     */
+    public $useFilters = true;
+    /**
+     * jqGrid filterToolbar options.
+     *
+     * @var array
+     */
+    public $filtersOptions = array();
+    /**
      * Whether to use a navbar in the bottom of the grid.
      *
      * @var boolean
@@ -43,12 +61,6 @@ class jqGrid extends CWidget
      * @var array
      */
     public $navBarOptions = array('edit' => false, 'add' => false, 'del' => false);
-    /**
-     * jqGrid table options.
-     *
-     * @var array
-     */
-    public $tableOptions = array('class' => 'scroll', 'cellpadding' => 0, 'cellspacing' => 0);
     /**
      * jqGrid pager options.
      *
@@ -165,14 +177,22 @@ class jqGrid extends CWidget
     protected function jsCode($id)
     {
         $options = $this->makeOptions($id);
-        $navOptions = CJavaScript::encode($this->navBarOptions);
 
         $nav = '';
         if ($this->useNavBar) {
+            $navOptions = CJavaScript::encode($this->navBarOptions);
             $nav = ".navGrid('#{$id}-pager', {$navOptions})";
         }
 
-        $script = "$('#{$id}').jqGrid({$options}){$nav};";
+        $filter = '';
+        if ($this->useFilters) {
+            $this->filtersOptions['stringResult'] = true;
+            $this->filtersOptions['searchOnEnter'] = (isset($this->filtersOptions['searchOnEnter'])) ? $this->filtersOptions['searchOnEnter'] : false;
+            $filterOptions = CJavaScript::encode($this->filtersOptions);
+            $filter = ".filterToolbar({$filterOptions})";
+        }
+
+        $script = "$('#{$id}').jqGrid({$options}){$nav}{$filter};";
 
         return $script;
     }
