@@ -3,15 +3,21 @@ ________________________________________________________________________________
 
 
 
+AJAX Layout:
+
+* Add support for CRUD views called from jQueryUI Dialogs.
+
+
+
 Widgets:
 
-+ Add a Meow proxy widget for flash messages.
+* Add a Growl-like widget for flash messages notification.
 
 
 
 Grid:
 
-* Add SEARCH support to CrudController::listData
+* Improve SEARCH support to CrudController::listData
 
 
 
@@ -19,6 +25,8 @@ Related widget:
 
 * more tests
 * try to add composite keys support
+* ADD button to show jQueryUI Dialog
+* AutoComplete support
 
 
 
