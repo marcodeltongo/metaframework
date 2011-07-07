@@ -185,6 +185,8 @@ table { border-collapse: collapse; border-spacing: 0; }
    Author:
    ========================================================================== */
 
+#ui-datepicker-div { display: none; }
+
 body {
     font-family: 'Open Sans', arial, sans-serif;
     background-color: #ecf0eb;
