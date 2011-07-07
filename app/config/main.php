@@ -5,7 +5,9 @@
  */
 return array(
     'modules'=>array(
-        'acl',
+        'acl' => array (
+            'class' => 'common.modules.acl.aclModule',
+        ),
     ),
     'components' => array(
         'user' => array(

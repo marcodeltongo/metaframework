@@ -78,11 +78,28 @@ class AuthItemChild extends ActiveRecord
     public function attributeLabels()
     {
         return array(
-                'parent' => Yii::t('AclModule_labels', 'Parent ID'),
-                'child' => Yii::t('AclModule_labels', 'Child ID'),
+                'parent' => Yii::t('AclModule', 'Parent ID'),
+                'child' => Yii::t('AclModule', 'Child ID'),
                 # Relations
-                'parentItem' => Yii::t('AclModule_labels', 'Parent Item'),
-                'childItem' => Yii::t('AclModule_labels', 'Child Item'),
+                'parentItem' => Yii::t('AclModule', 'Parent Item'),
+                'childItem' => Yii::t('AclModule', 'Child Item'),
+        );
+    }
+
+    /**
+     * Retrieves the list of customized attribute titles
+     *
+     * @return array customized attribute labels
+     */
+    public function attributeTitles()
+    {
+        return array(
+			'parent' => Yii::t('AclModuleChild', ''),
+			'child' => Yii::t('AclModuleChild', ''),
+
+			# Relations
+			'parentItem' => Yii::t('AclModuleChild', ''),
+			'childItem' => Yii::t('AclModuleChild', ''),
         );
     }
 

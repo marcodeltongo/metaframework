@@ -11,6 +11,4 @@ class ItemController extends CrudController
      * @var string
      */
     protected $modelClass = 'AuthItem';
-
-    protected $aclTurnedOff = true;
 }

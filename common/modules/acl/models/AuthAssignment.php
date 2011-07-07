@@ -80,15 +80,35 @@ class AuthAssignment extends ActiveRecord
     public function attributeLabels()
     {
         return array(
-            'id' => Yii::t('AclModule_labels', 'ID'),
-            'itemname' => Yii::t('AclModule_labels', 'Item name'),
-            'userid' => Yii::t('AclModule_labels', 'UserID'),
-            'bizrule' => Yii::t('AclModule_labels', 'Bizrule'),
-            'data' => Yii::t('AclModule_labels', 'Data'),
+            'id' => Yii::t('AclModule', 'ID'),
+            'itemname' => Yii::t('AclModule', 'Item name'),
+            'userid' => Yii::t('AclModule', 'UserID'),
+            'bizrule' => Yii::t('AclModule', 'Bizrule'),
+            'data' => Yii::t('AclModule', 'Data'),
 			# Relations
-			'item' => Yii::t('AclModule_labels', 'Items'),
+			'item' => Yii::t('AclModule', 'Items'),
         );
     }
+
+    /**
+     * Retrieves the list of customized attribute titles
+     *
+     * @return array customized attribute labels
+     */
+    public function attributeTitles()
+    {
+        return array(
+			'id' => Yii::t('AclModule', ''),
+			'itemname' => Yii::t('AclModule', ''),
+			'userid' => Yii::t('AclModule', ''),
+			'bizrule' => Yii::t('AclModule', ''),
+			'data' => Yii::t('AclModule', ''),
+
+			# Relations
+			'item' => Yii::t('AclModule', ''),
+        );
+    }
+
 
     /**
      * Retrieves a list of models based on the current search/filter conditions.
@@ -120,7 +140,7 @@ class AuthAssignment extends ActiveRecord
 			'itemname',
 			'userid',
 			'bizrule',
-			'data',
+//			'data',
         );
     }
 }

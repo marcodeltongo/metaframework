@@ -96,15 +96,36 @@ class AuthItem extends ActiveRecord
     public function attributeLabels()
     {
         return array(
-                'name' => Yii::t('AclModule_labels', 'Name'),
-                'type' => Yii::t('AclModule_labels', 'Type'),
-                'description' => Yii::t('AclModule_labels', 'Description'),
-                'bizrule' => Yii::t('AclModule_labels', 'Bizrule'),
-                'data' => Yii::t('AclModule_labels', 'Data'),
+                'name' => Yii::t('AclModule', 'Name'),
+                'type' => Yii::t('AclModule', 'Type'),
+                'description' => Yii::t('AclModule', 'Description'),
+                'bizrule' => Yii::t('AclModule', 'Bizrule'),
+                'data' => Yii::t('AclModule', 'Data'),
                 # Relations
-                'assignments' => Yii::t('AclModule_labels', 'Assigned to'),
-                'parents' => Yii::t('AclModule_labels', 'Parents'),
-                'children' => Yii::t('AclModule_labels', 'Children'),
+                'assignments' => Yii::t('AclModule', 'Assigned to'),
+                'parents' => Yii::t('AclModule', 'Parents'),
+                'children' => Yii::t('AclModule', 'Children'),
+        );
+    }
+
+    /**
+     * Retrieves the list of customized attribute titles
+     *
+     * @return array customized attribute labels
+     */
+    public function attributeTitles()
+    {
+        return array(
+			'name' => Yii::t('AclModule', ''),
+			'type' => Yii::t('AclModule', ''),
+			'description' => Yii::t('AclModule', ''),
+			'bizrule' => Yii::t('AclModule', ''),
+			'data' => Yii::t('AclModule', ''),
+
+			# Relations
+			'assignments' => Yii::t('AclModule', ''),
+			'parents' => Yii::t('AclModule', ''),
+			'children' => Yii::t('AclModule', ''),
         );
     }
 

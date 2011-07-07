@@ -8,5 +8,5 @@ class DashboardController extends AclController
         $this->render('index');
     }
 
-    protected $aclTurnedOff = true;
+    protected $aclTurnedOff = false;
 }

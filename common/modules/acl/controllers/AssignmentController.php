@@ -11,6 +11,4 @@ class AssignmentController extends CrudController
      * @var string
      */
     protected $modelClass = 'AuthAssignment';
-
-    protected $aclTurnedOff = true;
 }

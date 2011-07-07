@@ -78,8 +78,8 @@ abstract class AclController extends Controller
                 }
             }
         }
-        if (!$hasAccess) {
-            return;
+        if (!$hasAccess and !empty($conRules)) {
+            throw new CHttpException(403, Yii::t('yii', 'You are not authorized to perform this action.'));
         }
 
         /*
