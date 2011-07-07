@@ -81,7 +81,7 @@
 ?>
 </div><!-- end of #main -->
 <footer>
-	<span class="app-id"><?php echo APP_ID; ?></span>
+	<span class="app-name"><?php echo Yii::app()->name; ?></span>
 </footer>
 </div><!--! end of #container -->
 
