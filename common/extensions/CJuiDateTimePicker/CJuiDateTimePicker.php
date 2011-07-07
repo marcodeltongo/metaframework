@@ -9,9 +9,9 @@ Yii::import('zii.widgets.jui.CJuiDatePicker');
 class CJuiDateTimePicker extends CJuiDatePicker
 {
 	const ASSETS_NAME='/jquery-ui-timepicker-addon';
-	
+
 	public $mode='datetime';
-	
+
 	public function init()
 	{
 		if(!in_array($this->mode, array('date','time','datetime')))
@@ -20,7 +20,7 @@ class CJuiDateTimePicker extends CJuiDatePicker
 			$this->language=Yii::app()->getLanguage();
 		return parent::init();
 	}
-	
+
 	public function run()
 	{
 		list($name,$id)=$this->resolveNameID();
@@ -42,19 +42,20 @@ class CJuiDateTimePicker extends CJuiDatePicker
 
 		$options=CJavaScript::encode($this->options);
 
-		$js = "jQuery('#{$id}').{$this->mode}picker($options);";
-
-		if (isset($this->language)){
-			$this->registerScriptFile($this->i18nScriptFile);
-			$js = "jQuery('#{$id}').{$this->mode}picker(jQuery.extend({showMonthAfterYear:false}, jQuery.datepicker.regional['{$this->language}'], {$options}));";
-		}
-
 		$cs = Yii::app()->getClientScript();
-		
+
 		$assets = Yii::app()->getAssetManager()->publish(dirname(__FILE__).DIRECTORY_SEPARATOR.'assets');
 		$cs->registerCssFile($assets.self::ASSETS_NAME.'.css');
 		$cs->registerScriptFile($assets.self::ASSETS_NAME.'.js',CClientScript::POS_END);
-		
+
+		$js = "jQuery('#{$id}').{$this->mode}picker($options);";
+
+		if (isset($this->language) and $this->language != 'en'){
+        	$this->registerScriptFile($this->i18nScriptFile);
+			$cs->registerScriptFile($assets . '/localization/jquery-ui-timepicker-' . substr($this->language, 0, 2) . '.js', CClientScript::POS_END);
+			$js = "jQuery('#{$id}').{$this->mode}picker(jQuery.extend({showMonthAfterYear:false}, jQuery.datepicker.regional['{$this->language}'], {$options}));";
+		}
+
 		$cs->registerScript(__CLASS__, 	$this->defaultOptions?'jQuery.{$this->mode}picker.setDefaults('.CJavaScript::encode($this->defaultOptions).');':'');
 		$cs->registerScript(__CLASS__.'#'.$id, $js);
 

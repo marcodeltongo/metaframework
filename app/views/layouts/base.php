@@ -88,11 +88,10 @@
 <?php $this->widget('common.widgets.FlashMessages', array()); ?><!-- flashes -->
 
 <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.1/jquery.min.js"></script>
-<script>window.jQuery || document.write('<script src="<?php echo BASE_URL ?>js/libs/jquery-1.6.1.min.js">\x3C/script>')</script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/jquery-ui.min.js"></script>
-<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.13/i18n/jquery-ui-i18n.min.js"></script>
-<script>window.jQuery.effects || document.write('<script src="<?php echo BASE_URL ?>js/libs/jquery-ui-1.8.13.min.js">\x3C/script><script src="<?php echo BASE_URL ?>js/libs/jquery-ui-i18n-1.8.13.min.js">\x3C/script>')</script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+<script>window.jQuery || document.write('<script src="<?php echo BASE_URL ?>js/libs/jquery-1.6.2.js">\x3C/script>')</script>
+<script src="//ajax.googleapis.com/ajax/libs/jqueryui/1.8.14/jquery-ui.min.js"></script>
+<script>window.jQuery.effects || document.write('<script src="<?php echo BASE_URL ?>js/libs/jquery-ui-1.8.14.js">\x3C/script>')</script>
 <!--[if (gte IE 6) & (lte IE 8) & (!IEMobile)]>
 <script src="<?php echo BASE_URL ?>js/libs/selectivizr-1.0.2-min.js"></script>
 <![endif]-->
