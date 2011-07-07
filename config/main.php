@@ -5,7 +5,7 @@
  */
 return array(
     'basePath' => APP_DIR,
-    'name' => APP_ID,
+    'name' => APPSUITE_ID . '.' . APP_ID,
     'language' => 'en',
     'sourceLanguage' => 'en',
     'preload' => array('log'),

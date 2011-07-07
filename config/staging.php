@@ -11,7 +11,7 @@ $commonMainConfig = require COMMON_DIR . 'config/main.php';
 return CMap::mergeArray(array(
     'components' => array(
         'db' => array(
-            'connectionString' => 'mysql:host=localhost;dbname=' . APP_ID,
+            'connectionString' => 'mysql:host=localhost;dbname=' . APPSUITE_ID,
             'username' => 'root',
             'password' => '',
             'enableProfiling' => true,

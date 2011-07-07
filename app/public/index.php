@@ -65,20 +65,31 @@ spl_autoload_register(array('Zend_Loader_Autoloader', 'autoload'));
 spl_autoload_register(array('YiiBase', 'autoload'));
 
 /*
+ * Define application suite UNIQUE ID or get automatically from folder name.
+ */
+// define('APPSUITE_ID', 'your_own_unique_app_name');
+// /*
+if (!defined('APPSUITE_ID')) {
+    $_parts = explode(DIRECTORY_SEPARATOR, APP_DIR);
+    define('APPSUITE_ID', $_parts[count($_parts) - 3]);
+}
+// */
+
+/*
  * Define application UNIQUE ID or get automatically from folder name.
  */
 // define('APP_ID', 'your_own_unique_app_name');
 // /*
 if (!defined('APP_ID')) {
     $_parts = explode(DIRECTORY_SEPARATOR, APP_DIR);
-    define('APP_ID', $_parts[count($_parts) - 3]);
+    define('APP_ID', $_parts[count($_parts) - 2]);
 }
 // */
 
 /*
  * Load configuration files merging app-specific with common ones for current environment.
  */
-$commonConfig = require(COMMON_DIR . 'config/' . APP_ENVIROMENT . '.php');
+$commonConfig = require(ROOT_DIR . 'config/' . APP_ENVIROMENT . '.php');
 $appConfig = require(APP_DIR . 'config/' . APP_ENVIROMENT . '.php');
 $config = CMap::mergeArray($commonConfig, $appConfig);
 
