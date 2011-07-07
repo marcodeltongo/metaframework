@@ -1,3 +1,5 @@
 .DS_Store
 common/vendors
 nbproject
+assets
+runtime
