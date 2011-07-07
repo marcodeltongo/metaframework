@@ -8,10 +8,6 @@
  * <code>
  *  'LocaleDateTimeBehavior' => array(
  *      'class' => 'common.behaviors.LocaleDateTimeBehavior',
- *      'dbDateFormat' =' => 'Y-m-d',
- *      'dbDateTimeFormat' =' => 'Y-m-d H:i:s',
- *      'defaultDateWidth' => 'medium',
- *      'defaultTimeWidth' => 'medium',
  *      'autoAttributes' => false,
  *      'attributes' => array(
  *          'date',
@@ -37,29 +33,37 @@
 class LocaleDateTimeBehavior extends CActiveRecordBehavior
 {
     /**
-     * Format of saved date.
+     * JQueryUI compatibles formats
      *
-     * @var string
+     * @var array
      */
-    public $dbDateFormat = 'Y-m-d';
+    public $localeFormats = array(
+            'en' => array(
+                    'date' => 'MM/dd/yyyy',
+                    'time' => 'HH:mm:ss',
+                    'datetime' => 'MM/dd/yyyy HH:mm:ss',
+            ),
+            'es' => array(
+                    'date' => 'dd/MM/yyyy',
+                    'time' => 'HH:mm:ss',
+                    'datetime' => 'dd/MM/yyyy HH:mm:ss',
+            ),
+            'it' => array(
+                    'date' => 'dd/MM/yyyy',
+                    'time' => 'HH:mm:ss',
+                    'datetime' => 'dd/MM/yyyy HH:mm:ss',
+            ),
+    );
     /**
-     * Format of saved datetime.
+     * DB compatibles formats
      *
-     * @var string
+     * @var array
      */
-    public $dbDateTimeFormat = 'Y-m-d H:i:s';
-    /**
-     * Format of date. [CDateFormatter]
-     *
-     * @var string
-     */
-    public $defaultDateWidth = 'medium';
-    /**
-     * Format of datetime. [CDateFormatter]
-     *
-     * @var string
-     */
-    public $defaultTimeWidth = 'medium';
+    public $dbFormats = array(
+            'date' => 'Y-m-d',
+            'time' => 'H:i:s',
+            'datetime' => 'Y-m-d H:i:s',
+    );
     /**
      * Attributes to parse.
      *
@@ -72,6 +76,12 @@ class LocaleDateTimeBehavior extends CActiveRecordBehavior
      * @var string
      */
     public $autoAttributes = false;
+    /**
+     * Autoreplace empty date/time with null
+     *
+     * @var boolean
+     */
+    public $autoReplaceNull = true;
 
     /**
      * Formats an attribute for views
@@ -84,24 +94,9 @@ class LocaleDateTimeBehavior extends CActiveRecordBehavior
      */
     protected function formatDateTimeForViews($attribute, $timestamp, $type)
     {
-        if ($type === 'time') {
-            $dateWidth = null;
-        } elseif (isset($this->attributes[$attribute]['dateWidth'])) {
-            $dateWidth = $this->attributes[$attribute]['dateWidth'];
-        } else {
-            $dateWidth = $this->defaultDateWidth;
-        }
-
-        if ($type === 'date') {
-            $timeWidth = null;
-        } elseif (isset($this->attributes[$attribute]['timeWidth'])) {
-            $timeWidth = $this->attributes[$attribute]['timeWidth'];
-        } else {
-            $timeWidth = $this->defaultTimeWidth;
-        }
-
+        $type = ($type == 'timestamp') ? 'datetime' : $type;
         if (!empty($timestamp)) {
-            return Yii::app()->dateFormatter->formatDateTime($timestamp, $dateWidth, $timeWidth);
+            return Yii::app()->dateFormatter->format($this->localeFormats[Yii::app()->getLanguage()][$type], $timestamp);
         } elseif (isset($this->attributes[$attribute]['replaceNull'])) {
             return $this->attributes[$attribute]['replaceNull'];
         }
@@ -115,7 +110,11 @@ class LocaleDateTimeBehavior extends CActiveRecordBehavior
     public function beforeValidate($event)
     {
         foreach ($this->attributes as $attributeName => $attribute) {
-            if (isset($attribute['replaceNull'])
+            if ($this->autoReplaceNull and $this->autoAttributes
+                    and isset($event->sender->$attributeName)
+                    and (intval($event->sender->$attributeName) == 0)) {
+                $event->sender->$attributeName = null;
+            } elseif (isset($attribute['replaceNull'])
                     and isset($event->sender->$attributeName)
                     and ($event->sender->$attributeName == $attribute['replaceNull'])) {
                 $event->sender->$attributeName = null;
@@ -144,22 +143,14 @@ class LocaleDateTimeBehavior extends CActiveRecordBehavior
                 continue;
             }
 
-            if ($column->dbType === 'date') {
-                $event->sender->$columnName = date(
-                        $this->dbDateFormat, CDateTimeParser::parse($event->sender->$columnName, Yii::app()->locale->dateFormat)
-                );
-            } elseif ($column->dbType === 'datetime' || $column->dbType === 'timestamp') {
-                $event->sender->$columnName = date(
-                        $this->dbDateTimeFormat,
-                        CDateTimeParser::parse(
-                                $event->sender->$columnName,
-                                strtr(
-                                        Yii::app()->locale->dateTimeFormat,
-                                        array(
-                                        '{0}' => Yii::app()->locale->timeFormat,
-                                        '{1}' => Yii::app()->locale->dateFormat
-                                ))));
+            $type = ($column->dbType == 'timestamp') ? 'datetime' : $column->dbType;
+            $format = $this->localeFormats[Yii::app()->getLanguage()][$type];
+            $value = $event->sender->$columnName;
+            if ($type == 'datetime' and strlen($value)+3 == strlen($format)) {
+                $value .= ':00';
             }
+            $timestamp = CDateTimeParser::parse($value, $format);
+            $event->sender->$columnName = date($this->dbFormats[$type], $timestamp);
         }
     }
 
