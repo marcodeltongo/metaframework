@@ -3,7 +3,7 @@
 /*
  * Inherits from common main.
  */
-$commonMainConfig = require COMMON_DIR . 'config/main.php';
+$commonMainConfig = require(ROOT_DIR . 'config/main.php');
 
 /**
  * Common development configuration.
