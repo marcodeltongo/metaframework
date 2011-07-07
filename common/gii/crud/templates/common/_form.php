@@ -52,7 +52,7 @@ function generateAttributeRow($column, $modelClass) {
             $value = trim($value, "()'");
             echo "\t\t\t'$value' => Yii::t('app', '" . $value . "') ,\n";
         }
-        echo '\t\t)); ?>\n';
+        echo "\t\t)); ?>\n";
     } elseif (false !== stripos($column->name, 'image')) {
       echo "\t\t<div class='input image-input'><?php echo \$form->imageField(\$model, '{$column->name}', array($title)); ?></div>\n";
     } else {
