@@ -33,17 +33,17 @@ abstract class CrudController extends AclController
      */
     public function accessRules()
     {
-        if ($this->aclTurnedOff) {
-            return array();
-        }
+		if ($this->isAclEnabled()) {
+			return array(
+					array('allow',
+							'actions' => array('index', 'create', 'update', 'clone', 'delete', 'listData'),
+							'users' => array('@'), # only authenticated users
+					),
+					array('deny'),
+			);
+		}
 
-        return array(
-                array('allow',
-                        'actions' => array('index', 'create', 'update', 'clone', 'delete', 'listData'),
-                        'users' => array('@'), # only authenticated users
-                ),
-                array('deny'),
-        );
+		return array();
     }
 
     /**

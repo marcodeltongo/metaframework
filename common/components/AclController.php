@@ -18,16 +18,23 @@ abstract class AclController extends Controller
      *
      * @var boolean
      */
-    protected $aclTurnedOff = false;
+    protected $aclDisabled = false;
 
     /**
      * Setup filters.
      */
     public function filters()
     {
+        /*
+         * Turned off ?
+         */
+        if ($this->aclDisabled or $this->param('aclDisabled', false)) {
+			return array();
+        }
+
         return array(
                 'accessControl',
-                'ACL',
+                'Acl',
         );
     }
 
@@ -40,25 +47,33 @@ abstract class AclController extends Controller
     }
 
     /**
-     * The filter method for 'ACL' filter.
+     * Is ACL check disabled ?
+     */
+    public function isAclDisabled()
+    {
+        return ($this->aclDisabled or $this->param('aclDisabled', false));
+    }
+
+    /**
+     * Is ACL check enabled ?
+     */
+    public function isAclEnabled()
+    {
+        return !($this->aclDisabled or $this->param('aclDisabled', false));
+    }
+
+    /**
+     * The filter method for 'Acl' filter.
      *
      * This filter reports an error if the applied action cannot be called by user.
      *
      * @param CFilterChain $filterChain the filter chain that the filter is on.
      */
-    public function filterACL($filterChain)
+    public function filterAcl($filterChain)
     {
         $user = Yii::app()->getUser();
         $actionId = $this->getAction()->getId();
         $hasAccess = false;
-
-        /*
-         * Turned off ?
-         */
-        if ($this->aclTurnedOff) {
-            $filterChain->run();
-            return;
-        }
 
         /*
          * Check controller access rules.

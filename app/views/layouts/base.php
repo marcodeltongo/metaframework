@@ -13,9 +13,8 @@
     <meta name="description" content="<?php echo $this->metaDescription; ?>" />
 
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="<?php echo BASE_URL ?>css/ui/absolution/jquery.ui.all.css">
 	<link rel="stylesheet" href="<?php echo BASE_URL ?>css/style.css">
-	<link rel="stylesheet" href="<?php echo BASE_URL ?>css/ui/custom-aluminum/style.css">
-    <link href='http://fonts.googleapis.com/css?family=Open+Sans:light,lightitalic,regular,regularitalic,600,600italic,bold,bolditalic,800,800italic&v1' rel='stylesheet' type='text/css'>
     <link rel="shortcut icon" href="<?php echo BASE_URL ?>favicon.ico">
 
 	<!-- JavaScript at the bottom for fast page loading, only strictly needed here. -->

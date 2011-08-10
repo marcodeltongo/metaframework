@@ -66,7 +66,10 @@ return array(
         ),
         'authManager' => array(
             'class' => 'CDbAuthManager',
-            'defaultRoles' => array('authenticated', 'guest'),
+			'itemTable' => 'acl_item',
+			'itemChildTable' => 'acl_item_relation',
+			'assignmentTable' => 'acl_assignment',
+            'defaultRoles' => array('guest', 'authenticated', 'manager'),
         ),
         'clientScript' => array(
             'scriptMap' => array(

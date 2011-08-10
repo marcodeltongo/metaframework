@@ -1,0 +1,3 @@
+[submodule "app/public/css/ui/absolution"]
+	path = app/public/css/ui/absolution
+	url = git@github.com:logicoder/Absolution.git

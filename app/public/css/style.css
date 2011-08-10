@@ -6,6 +6,8 @@
  * Kroc Camen, and the H5BP dev community and team.
 */
 
+/* @import url(http://fonts.googleapis.com/css?family=Droid+Sans:400,700&v2); */
+@import url(http://fonts.googleapis.com/css?family=Ubuntu:400,700,400italic,700italic&v2);
 
 /* =============================================================================
    HTML5 element display
@@ -187,19 +189,23 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 #ui-datepicker-div { display: none; }
 
+body, input, textarea {
+    /*font-family: 'Droid Sans', arial, sans-serif;*/
+    font-family: 'Ubuntu', arial, sans-serif;
+}
+
 body {
-    font-family: 'Open Sans', arial, sans-serif;
     background-color: #ecf0eb;
     color: #2e3436;
     text-shadow: 0 1px 0 rgba(0, 0, 0, 0.01);
 }
 
-#breadcrumbs a {
-    -moz-transition: all 0.3s ease-out;
-    -o-transition: all 0.3s ease-out;
-    -webkit-transition: all 0.3s ease-out;
-    -ms-transition: all 0.3s ease-out;
-    transition: all 0.3s ease-out;
+#breadcrumbs a, .form-buttons input, .create-button {
+    -moz-transition: all 0.1s ease-in;
+    -o-transition: all 0.1s ease-in;
+    -webkit-transition: all 0.1s ease-in;
+    -ms-transition: all 0.1s ease-in;
+    transition: all 0.1s ease-in;
 }
 
 header {
@@ -349,14 +355,6 @@ header nav ul li ul li a:hover {
     -webkit-box-shadow: 0px 2px 4px rgba(0,0,0,0.75);
     box-shadow: 0px 2px 4px rgba(0,0,0,0.5);
 
-    -moz-border-radius: 6px;
-    -webkit-border-radius: 6px;
-    border-radius: 6px;
-
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-
     border: 1px solid #000000;
     text-shadow: 1px 1px 1px #000000;
 }
@@ -428,7 +426,7 @@ header nav ul li ul li a:hover {
     text-decoration: none;
     color: #f7f8f5;
     font-weight: bold;
-    text-shadow: 1px 1px 0px #000000;
+    text-shadow: 0px 0px 1px #000000;
     padding: 0.5em;
 
 }
@@ -492,7 +490,6 @@ p#tip {
 }
 .crudform textarea {
     vertical-align: text-top;
-    font-family: 'Open Sans', arial, sans-serif;
 }
 .crudform input, .crudform textarea {
     padding: 0.5em;
@@ -558,6 +555,7 @@ p#tip {
     box-shadow: 0px 0px 2px #97c4f0;
     border: 1px solid #97c4f0;
 }
+
 .crudform .errorMessage {
     display: table-cell;
     vertical-align: middle;
@@ -566,7 +564,6 @@ p#tip {
     background-color: #a40000;
     color: #f7f8f5;
     font-weight: bold;
-    font-style: italic;
 
     border: 1px solid #f7f8f5;
 
@@ -621,7 +618,7 @@ p#tip {
 .crudform .form-buttons input, .crudform input[name="__deleteImage"] {
     color: #f7f8f5;
     font-weight: bold;
-    text-shadow: 1px 1px 0px #000000;
+    text-shadow: 0px 0px 1px #000000;
     padding: 0.5em;
 }
 .crudform .form-buttons input[name="_continue"],
@@ -666,8 +663,6 @@ p#tip {
     -webkit-box-shadow: 0px 0px 2px #000000;
     box-shadow: 0px 0px 2px #000000;
 }
-
-
 
 
 
