@@ -38,7 +38,7 @@ $gridCols = $modelClass::model()->gridAttributes();
 foreach($gridCols as $column) {
     $label = "Yii::t('model_{$modelClass}', '" . $labels[$column] . "')";
     $colNames .= "\t\t\t{$label},\n";
-    $colModel .= "\t\t\tarray('name' => " . $label . ", 'index' => '{$column}'),\n";
+    $colModel .= "\t\t\tarray('name' => '{$column}', 'index' => '{$column}'),\n";
 }
 echo <<<EOGRID
 <?php
