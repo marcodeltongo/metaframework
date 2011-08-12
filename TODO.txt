@@ -26,7 +26,7 @@ Related widget:
 * more tests
 * try to add composite keys support
 * ADD button to show jQueryUI Dialog
-* AutoComplete support
+* AutoComplete support via Chosen widget
 
 
 
@@ -45,14 +45,13 @@ Gii:
 ImageManager:
 
 * Add per-format alias folder instead of autonaming from format name
-* Multi-upload support through http://www.plupload.com/
-  or http://aquantum-demo.appspot.com/file-upload
+* Multi-upload support through Upload widget
 
 
 
 Caching:
 
-* Implement page and fragment cache.
+* Implement page and fragment cache in "App".
 * Set to CDummyCache as default for development.
 
 
