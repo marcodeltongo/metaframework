@@ -11,7 +11,7 @@
     'enableAjaxValidation' => true,
     'clientOptions' => array(
         'validateOnSubmit' => true,
-        'validateOnChange' => false,
+        'validateOnChange' => true,
     ),
     'enableClientValidation' => true,
     'htmlOptions' => array(

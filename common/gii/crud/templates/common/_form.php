@@ -110,7 +110,7 @@ $excludedFileds = array_key_from_value($relations, 2);
     'enableAjaxValidation' => true,
     'clientOptions' => array(
         'validateOnSubmit' => true,
-        'validateOnChange' => false,
+        'validateOnChange' => true,
     ),
     'enableClientValidation' => true,
     'htmlOptions' => array(
