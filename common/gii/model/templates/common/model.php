@@ -96,9 +96,13 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
         */
 <?php
 $serialized = array();
+$_timestamp = '';
 foreach($columns as $name => $column) {
 	if (in_array($name, array('extra', 'serialized'))) {
 		$serialized[] = $name;
+	}
+	if (in_array($name, array('timestamp'))) {
+		$_timestamp = $name;
 	}
 }
 if (!empty($serialized)) { ?>
@@ -106,6 +110,15 @@ if (!empty($serialized)) { ?>
         $behaviors['SerializeBehavior'] = array(
             'class' => 'common.behaviors.SerializeBehavior',
 			'attributes' => array('<?php echo implode(', ', $serialized); ?>'),
+        );
+<?php
+}
+if (!empty($_timestamp)) { ?>
+
+        $behaviors['CTimestampBehavior'] = array(
+            'class' => 'zii.behaviors.CTimestampBehavior',
+			'createAttribute' => '<?php echo $_timestamp; ?>',
+			'updateAttribute' => null,
         );
 <?php
 }
