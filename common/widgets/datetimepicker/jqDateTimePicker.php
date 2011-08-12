@@ -1,4 +1,5 @@
 <?php
+Yii::import('zii.widgets.jui.CJuiDatePicker');
 
 /**
  * jqDateTimePicker widget class file.

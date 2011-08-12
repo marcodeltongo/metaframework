@@ -30,6 +30,12 @@ Related widget:
 
 
 
+ActiveForm:
+
+* Add options for select/multiselect widgets
+
+
+
 Cli:
 
 * command to extract ACL rules and save in DB
