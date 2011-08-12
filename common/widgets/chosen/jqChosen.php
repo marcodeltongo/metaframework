@@ -1,9 +1,10 @@
 <?php
 
 /**
- * jqTooltip widget class file.
+ * jqChosen widget class file.
  *
- * Proxy for jqTooltip
+ * Proxy for jQuery Chosen plugin from:
+ * https://github.com/harvesthq/chosen
  *
  * @author Marco Del Tongo <info@marcodeltongo.com>
  * @copyright Copyright (c) 2011, Marco Del Tongo
@@ -11,14 +12,14 @@
  * @license http://opensource.org/licenses/mit-license Licensed under the MIT license.
  * @version 1.0
  */
-class jqTooltip extends CWidget
+class jqChosen extends CWidget
 {
 	/**
 	 * Selector for jQuery
 	 *
 	 * @var string
 	 */
-	public $selector = '[title]';
+	public $selector = '.chosen';
     /**
      * Options
      *
@@ -42,13 +43,13 @@ class jqTooltip extends CWidget
      *
      * @var object
      */
-    private $_cssFiles = array();
+    private $_cssFiles = array('chosen.css');
     /**
      * JS files to include
      *
      * @var object
      */
-    private $_jsFiles = array('tip.js');
+    private $_jsFiles = array('chosen.jquery.min.js');
 
     /**
      * Check parameters and try auto-detection.
@@ -88,7 +89,7 @@ class jqTooltip extends CWidget
 
         $encodedOptions = CJavaScript::encode(array_merge(array(), $this->options));
 
-        $js = "jQuery('{$this->selector}').tip({$encodedOptions});";
+        $js = "jQuery('{$this->selector}').chosen({$encodedOptions});";
 
         $this->_clientScript->registerScript('Yii.' . get_class($this), $js, CClientScript::POS_END);
     }

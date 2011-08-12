@@ -14,6 +14,12 @@
  */
 class jqUpload extends CWidget
 {
+	/**
+	 * Selector for jQuery
+	 *
+	 * @var string
+	 */
+	public $selector = '.upload';
     /**
      * Options
      *
@@ -83,11 +89,9 @@ class jqUpload extends CWidget
 
         $encodedOptions = CJavaScript::encode(array_merge(array(), $this->options));
 
-        /*
-		$js = "jQuery('[title]').tip({$encodedOptions});";
+		$js = "jQuery('{$this->selector}')..fileupload({$encodedOptions});";
 
         $this->_clientScript->registerScript('Yii.' . get_class($this), $js, CClientScript::POS_END);
-		*/
     }
 
 }

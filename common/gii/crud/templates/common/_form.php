@@ -24,20 +24,32 @@ function generateAttributeRow($column, $modelClass) {
     echo "\t<div class='{$modelClass}-{$column->name} attribute row'>\n";
     echo "\t\t<?php echo \$form->labelEx(\$model, '{$column->name}'); ?>\n";
 
+	/*
+	 * Try to manage input type by column type.
+	 */
     if (in_array($dbType, array('BIT', 'BOOL', 'BOOLEAN', 'TINYINT(1)'))) {
-        // BOOLEAN
+        /*
+		 * Boolean
+		 */
         echo "\t\t<div class='input boolean-input'><?php echo \$form->dropDownList(\$model, '{$column->name}', array(Yii::t('yii', 'No'), Yii::t('yii', 'Yes')), array($title, 'class' => 'boolean', 'empty' => '')); ?></div>\n";
     } elseif (false !== stripos($dbType, 'TEXT')) {
         if (in_array($column->name, array('extra'))) {
-            // EXTRA SERIALIZED VALUES
+			/*
+			 * Serialized input
+			 */
             echo "\t\t<!--<div class='input extra-input'><?php // echo \$form->textField(\$model, '{$column->name}[\"EXTRAFIELDNAME\"]', array($title, 'size' => 50)); ?></div>-->\n";
         } else {
-            // TEXTAREA
+			/*
+			 * Textarea
+			 */
             echo "\t\t<div class='input textarea'><?php echo \$form->textArea(\$model, '{$column->name}', array($title, 'rows' => 8, 'cols' => 50)); ?></div>\n";
         }
     } elseif (in_array($dbType, array('DATE', 'DATETIME', 'TIME', 'TIMESTAMP'))) {
+        /*
+		 * Date types
+		 */
         $mode = ($dbType == 'TIMESTAMP') ? 'datetime' : strtolower($dbType);
-        echo "\t\t<div class='input datetime-input'><?php \$this->widget('common.extensions.CJuiDateTimePicker.CJuiDateTimePicker', array(\n";
+        echo "\t\t<div class='input datetime-input'><?php \$this->widget('common.widgets.datetimepicker.jqDateTimePicker', array(\n";
         echo "\t\t\t'model' => \$model,\n";
         echo "\t\t\t'attribute' => '{$column->name}',\n";
         echo "\t\t\t'mode' => '$mode',\n";
@@ -45,6 +57,9 @@ function generateAttributeRow($column, $modelClass) {
         echo "\t\t\t'htmlOptions' => array($title),\n";
         echo "\t\t)); ?></div>\n";
     } elseif (substr($dbType, 0, 4) == 'ENUM') {
+        /*
+		 * Enum
+		 */
         echo sprintf("\t\t<div class='input enum-input'><?php echo CHtml::activeDropDownList(\$model, '%s', array(\n", $column->name);
 
         $enum_values = explode(',', substr($column->dbType, 4, strlen($column->dbType) - 1));
@@ -54,8 +69,14 @@ function generateAttributeRow($column, $modelClass) {
         }
         echo "\t\t)); ?>\n";
     } elseif (false !== stripos($column->name, 'image')) {
+        /*
+		 * Image
+		 */
       echo "\t\t<div class='input image-input'><?php echo \$form->imageField(\$model, '{$column->name}', array($title)); ?></div>\n";
     } else {
+        /*
+		 * Common input
+		 */
         if (in_array($column->name, array('password', 'pass', 'passwd', 'passcode'))) {
             $inputField = 'passwordField';
         } else {

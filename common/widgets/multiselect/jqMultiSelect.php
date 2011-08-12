@@ -13,6 +13,12 @@
  */
 class jqMultiSelect extends CWidget
 {
+	/**
+	 * Selector for jQuery
+	 *
+	 * @var string
+	 */
+	public $selector = 'select[multiple]';
     /**
      * Options
      *
@@ -82,7 +88,7 @@ class jqMultiSelect extends CWidget
 
         $encodedOptions = CJavaScript::encode(array_merge(array(), $this->options));
 
-        $js = "jQuery('select[multiple]').multiselect({$encodedOptions});";
+        $js = "jQuery('{$this->selector}').multiselect({$encodedOptions});";
 
         $this->_clientScript->registerScript('Yii.' . get_class($this), $js, CClientScript::POS_END);
     }

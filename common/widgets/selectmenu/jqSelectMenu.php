@@ -13,6 +13,12 @@
  */
 class jqSelectMenu extends CWidget
 {
+	/**
+	 * Selector for jQuery
+	 *
+	 * @var string
+	 */
+	public $selector = 'select:not([multiple])';
     /**
      * Options
      *
@@ -82,7 +88,7 @@ class jqSelectMenu extends CWidget
 
         $encodedOptions = CJavaScript::encode(array_merge(array(), $this->options));
 
-        $js = "jQuery('select:not([multiple])').selectmenu({$encodedOptions});";
+        $js = "jQuery('{$this->selector}').selectmenu({$encodedOptions});";
 
         $this->_clientScript->registerScript('Yii.' . get_class($this), $js, CClientScript::POS_END);
     }

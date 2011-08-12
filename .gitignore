@@ -1,7 +1,7 @@
 .DS_Store
 common/vendors
 nbproject
-assets
+app/public/assets
 runtime
 .bak
 .mwb.bak
