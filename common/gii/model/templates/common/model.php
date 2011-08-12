@@ -94,6 +94,22 @@ class <?php echo $modelClass; ?> extends <?php echo $this->baseClass."\n"; ?>
             'class' => 'alias.to.BEHAVIOURNAME',
         );
         */
+<?php
+$serialized = array();
+foreach($columns as $name => $column) {
+	if (in_array($name, array('extra', 'serialized'))) {
+		$serialized[] = $name;
+	}
+}
+if (!empty($serialized)) { ?>
+
+        $behaviors['SerializeBehavior'] = array(
+            'class' => 'common.behaviors.SerializeBehavior',
+			'attributes' => array('<?php echo implode(', ', $serialized); ?>'),
+        );
+<?php
+}
+?>
 
         return $behaviors;
     }

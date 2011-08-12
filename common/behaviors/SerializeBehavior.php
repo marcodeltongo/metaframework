@@ -13,7 +13,7 @@
  * 		return array(
  * 			'SerializeBehavior' => array(
  * 				'class' => 'common.behaviors.SerializeBehavior',
- * 				'serialAttributes' => array('field_a', 'field_b', 'field_c'),
+ * 				'attributes' => array('field_a', 'field_b', 'field_c'),
  * 			)
  * 		);
  * 	}
@@ -32,15 +32,15 @@ class SerializeBehavior extends CActiveRecordBehavior
      *
      * @var array
      */
-    public $serialAttributes = array();
+    public $attributes = array();
 
     /**
      * Convert the array value to serialized string.
      */
     private function _serialize ()
     {
-        if (count($this->serialAttributes)) {
-            foreach ($this->serialAttributes as $attribute) {
+        if (!empty($this->attributes)) {
+            foreach ($this->attributes as $attribute) {
                 $_att = $this->getOwner()->$attribute;
 
                 /*
@@ -68,8 +68,8 @@ class SerializeBehavior extends CActiveRecordBehavior
      */
     private function _unserialize ()
     {
-        if (count($this->serialAttributes)) {
-            foreach ($this->serialAttributes as $attribute) {
+        if (!empty($this->attributes)) {
+            foreach ($this->attributes as $attribute) {
                 $_att = $this->getOwner()->$attribute;
                 if (!empty($_att) and is_scalar($_att)) {
                     $a = @unserialize(base64_decode($_att));
