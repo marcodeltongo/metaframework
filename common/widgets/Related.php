@@ -188,9 +188,9 @@ class Related extends CWidget
             /*
              * Exclude this to avoid recursion
              */
-            if (!is_array($this->field) and !is_array($this->relatedField)) {
-                $criteria->condition = $this->model->getMetaData()->tableSchema->primaryKey . ' <> :PK';
-                $criteria->params = array(':PK' => $this->model->getPrimaryKey());
+            if (!$this->model->getIsNewRecord() and !is_array($this->field) and !is_array($this->relatedField)) {
+                $criteria->condition = $this->model->getMetaData()->tableSchema->primaryKey . ' <> :pk';
+                $criteria->params = array(':pk' => $this->model->getPrimaryKey());
             }
         }
         $this->availableRows = $this->related->findAll($criteria);

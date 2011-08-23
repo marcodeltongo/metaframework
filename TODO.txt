@@ -55,6 +55,12 @@ ImageManager:
 
 
 
+ActiveRecordLog:
+
+* Add option to log only when a user is logged in, not all operations
+
+
+
 Caching:
 
 * Implement page and fragment cache in "App".
