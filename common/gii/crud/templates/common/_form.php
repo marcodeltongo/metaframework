@@ -31,7 +31,7 @@ function generateAttributeRow($column, $modelClass) {
         /*
 		 * Boolean
 		 */
-        echo "\t\t<div class='input boolean-input'><?php echo \$form->dropDownList(\$model, '{$column->name}', array(Yii::t('yii', 'No'), Yii::t('yii', 'Yes')), array($title, 'class' => 'boolean', 'empty' => '')); ?></div>\n";
+        echo "\t\t<div class='input boolean-input'><?php echo \$form->booleanField(\$model, '{$column->name}'); ?></div>\n";
     } elseif (false !== stripos($dbType, 'TEXT')) {
         if (in_array($column->name, array('extra'))) {
 			/*
@@ -139,7 +139,7 @@ foreach ($this->tableSchema->columns as $column)
 <?php
 foreach ($relations as $related => $relation)
 {
-    if ($relation[0] == 'CStatRelation') {
+    if (in_array($relation[0], array('CStatRelation', 'CHasManyRelation'))) {
         continue;
     }
 

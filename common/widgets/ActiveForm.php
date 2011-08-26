@@ -80,4 +80,21 @@ class ActiveForm extends CActiveForm
         }
     }
 
+    /**
+     * Renders a boolean input field for a model attribute.
+     *
+     * @param CModel $model the data model
+     * @param string $attribute the attribute
+     * @param array  $htmlOptions additional HTML attributes
+     *
+     * @return string the generated input field
+     */
+	public function booleanField($model, $attribute, $htmlOptions = array())
+	{
+		$htmlOptions['class'] = (isset($htmlOptions['class'])) ? $htmlOptions['class'] . ' boolean' : 'boolean';
+		$htmlOptions['empty'] = (isset($htmlOptions['empty'])) ? $htmlOptions['empty'] : '';
+
+		return $this->dropDownList($model, $attribute, array(Yii::t('yii', 'No'), Yii::t('yii', 'Yes')), $htmlOptions);
+	}
+
 }

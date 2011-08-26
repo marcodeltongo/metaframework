@@ -65,7 +65,7 @@ $colModel
         'height' => 400,
         'forceFit' => true,
         'shrinkToFit' => true,
-        'altRows' => true,
+        'altRows' => false,
         'rownumbers' => true,
         'onSelectRow' => "js:function(id){ if(id){ window.location = '\$updateUrl?id='+id; }}",
     ),

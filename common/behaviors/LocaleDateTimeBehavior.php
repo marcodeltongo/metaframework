@@ -40,18 +40,18 @@ class LocaleDateTimeBehavior extends CActiveRecordBehavior
     public $localeFormats = array(
             'en' => array(
                     'date' => 'MM/dd/yyyy',
-                    'time' => 'HH:mm:ss',
-                    'datetime' => 'MM/dd/yyyy HH:mm:ss',
+                    'time' => 'HH:mm',
+                    'datetime' => 'MM/dd/yyyy HH:mm',
             ),
             'es' => array(
                     'date' => 'dd/MM/yyyy',
-                    'time' => 'HH:mm:ss',
-                    'datetime' => 'dd/MM/yyyy HH:mm:ss',
+                    'time' => 'HH:mm',
+                    'datetime' => 'dd/MM/yyyy HH:mm',
             ),
             'it' => array(
                     'date' => 'dd/MM/yyyy',
-                    'time' => 'HH:mm:ss',
-                    'datetime' => 'dd/MM/yyyy HH:mm:ss',
+                    'time' => 'HH:mm',
+                    'datetime' => 'dd/MM/yyyy HH:mm',
             ),
     );
     /**
