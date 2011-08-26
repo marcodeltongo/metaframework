@@ -175,7 +175,6 @@ abstract class CrudController extends AclController
 		$criteria = new CDbCriteria;
 		$criteria->limit = $rows;
 		$criteria->offset = $offset;
-		$criteria->select = array_untrim($cols, '`');
 
 		/*
 		 * Search
@@ -276,7 +275,7 @@ abstract class CrudController extends AclController
 		foreach ($records as $record) {
 			$cell = array();
 			foreach ($cols as $col) {
-				$cell[] = $record->$col;
+				$cell[] = is_object($record->$col) ? $record->$col->toString() : $record->$col;
 			}
 			$rows[] = array('id' => $record->getPrimaryKey(), 'cell' => $cell);
 		}
