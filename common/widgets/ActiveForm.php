@@ -47,14 +47,14 @@ class ActiveForm extends CActiveForm
      *
      * @return string the generated input field
      */
-    public function imageField($model, $attribute, $alias = 'thumb', $canDelete = true, $inputOptions = array(), $imgOptions = array())
+    public function imageField($model, $attribute, $alias = 'imageFieldThumbnail', $canDelete = true, $inputOptions = array(), $imgOptions = array())
     {
         /*
          * Compatibility check
          */
         if (is_array($alias)) {
             $inputOptions = $alias;
-            $alias = 'thumb';
+            $alias = 'imageFieldThumbnail';
         }
         /*
          * Implementation

@@ -90,21 +90,24 @@ return array(
         'browser' => array(
             'class' => 'Browser',
         ),
+        'file' => array(
+            'class'=>'common.extensions.CFile.CFile',
+        ),
+        /*
+            ImageManager component
+        */
         'imageManager' => array(
             'class' => 'ImageManager',
             'baseUrl' => 'media/photos/',
             'basePath' => PUBLIC_DIR . 'media/photos/',
             'uploadClassPath' => VENDORS_DIR . 'Upload/',
             'formats' => array(
-                    'thumb' => array(
+                    'imageFieldThumbnail' => array(
                         'image_resize' => true,
                         'image_ratio_x' => true,
                         'image_y' => 150,
                     ),
             ),
-        ),
-        'file' => array(
-            'class'=>'common.extensions.CFile.CFile',
         ),
     ),
 );
