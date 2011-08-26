@@ -18,6 +18,8 @@ Widgets:
 Grid:
 
 * Improve SEARCH support to CrudController::listData
+* Add search on relations
+* Add sorting on relations
 
 
 
@@ -50,7 +52,6 @@ Gii:
 
 ImageManager:
 
-* Add per-format alias folder instead of autonaming from format name
 * Multi-upload support through Upload widget
 
 
