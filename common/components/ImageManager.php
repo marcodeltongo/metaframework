@@ -50,11 +50,21 @@ class ImageManager extends CApplicationComponent
      */
     public $baseUrl;
     /**
+     * Public originals URL.
+     *
+     * @var string
+     */
+    public $originalUrl;
+    /**
      * Image formats.
+	 *
+	 * @var array
      */
     public $formats = array();
     /**
      * Wheter to prebuild images in the various formats.
+	 *
+	 * @var boolean or array
      */
     public $prebuild = false;
 
@@ -87,6 +97,9 @@ class ImageManager extends CApplicationComponent
 		if (strpos($this->baseUrl, 'http://') === false) {
 			$this->baseUrl = Yii::app()->getBaseUrl(true) . '/' . $this->baseUrl;
 		}
+        if (null === $this->originalUrl) {
+            $this->originalUrl = $this->baseUrl . 'original/';
+        }
 
         /*
          * Load Upload class
@@ -198,7 +211,7 @@ class ImageManager extends CApplicationComponent
      * @param string $field Optional key for $image array
      * @param string $path Where to save output
      * @param boolean $safe Wheter to change name to ensure uniqueness
-	 * @param boolean $prebuild Wheter to prebuild formats of the image
+	 * @param mixed $prebuild Wheter to prebuild formats of the image, true means all, array contains names
      *
      * @return boolean false or filename
      */
@@ -249,8 +262,16 @@ class ImageManager extends CApplicationComponent
 				/*
 				 * Prepare formats ?
 				 */
-				if ($this->prebuild or $prebuild) {
+				if (($prebuild === true) or ($this->prebuild === true)) {
 					foreach (array_keys($this->formats) as $format) {
+						$this->alias($original, $format);
+					}
+				} elseif (is_array($prebuild)) {
+					foreach ($prebuild as $format) {
+						$this->alias($original, $format);
+					}
+				} elseif (is_array($this->prebuild)) {
+					foreach ($this->prebuild as $format) {
 						$this->alias($original, $format);
 					}
 				} else {
@@ -260,10 +281,7 @@ class ImageManager extends CApplicationComponent
 						}
 					}
 				}
-				/*
-				 * Clean temporary and return filename
-				 */
-				$this->_handle->clean();
+
                 return $original;
             }
         }
@@ -295,7 +313,12 @@ class ImageManager extends CApplicationComponent
             /*
              * Check if file already exists
              */
-            if (!file_exists($this->basePath . $alias . '/' . $image)) {
+			if (isset($this->formats[$alias]['path'])) {
+				$path = $this->basePath . $this->formats[$alias]['path'];
+			} else {
+				$path = $this->basePath . $alias . '/';
+			}
+            if (!file_exists($path . $image)) {
                 /*
                  * Get original
                  */
@@ -314,26 +337,25 @@ class ImageManager extends CApplicationComponent
                         $this->_handle->$property = $value;
                     }
                 }
-				/*
-				 * Use format path or autobuild from name
-				 */
-				if (isset($this->formats[$alias]['path'])) {
-					$path = $this->formats[$alias]['path'];
-				} else {
-					$path = $this->basePath . $alias . '/';
-				}
                 /*
                  * Process image
                  */
                 $this->_handle->file_overwrite = true;
                 $this->_handle->process($path);
             }
-            return $this->baseUrl . $alias . '/' . $image;
+			/*
+			 * Use format path or autobuild from name
+			 */
+			$url = $this->baseUrl . $alias . '/';
+			if (isset($this->formats[$alias]['path'])) {
+				$url = $this->baseUrl . $this->formats[$alias]['path'];
+			}
+            return $url . $image;
         }
         /*
          * Return as original
          */
-        return $this->originalPath . $image;
+        return $this->originalUrl . $image;
     }
 
     /**

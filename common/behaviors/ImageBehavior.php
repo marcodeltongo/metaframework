@@ -31,6 +31,24 @@ class ImageBehavior extends CActiveRecordBehavior
      * @var array
      */
     public $attributes = array();
+    /**
+     * Where to save output.
+     *
+     * @var string
+     */
+    public $path = false;
+    /**
+     * Wheter to change name to ensure uniqueness.
+     *
+     * @var boolean
+     */
+    public $safe = true;
+    /**
+     * Wheter to prebuild formats of the image.
+     *
+     * @var mixed
+     */
+    public $prebuild = false;
 
     /**
      * Responds to {@link CModel::onBeforeSave} event.
@@ -61,7 +79,7 @@ class ImageBehavior extends CActiveRecordBehavior
              * Upload image ?
              */
             if (isset($_FILES[$class]['name']) and !empty($_FILES[$class]['name'][$name])) {
-                $image = Yii::app()->imageManager->upload($_FILES[$class], $name);
+                $image = Yii::app()->imageManager->upload($_FILES[$class], $name, $this->path, $this->safe, $this->prebuild);
                 if (false === $image) {
                     $event->isValid = false;
                     $owner->addError($name, Yii::app()->imageManager->error);
