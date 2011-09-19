@@ -189,7 +189,7 @@ table { border-collapse: collapse; border-spacing: 0; }
 
 #ui-datepicker-div { display: none; }
 
-body, input, textarea {
+body, input, textarea, .ui-widget {
     /*font-family: 'Droid Sans', arial, sans-serif;*/
     font-family: 'Ubuntu', arial, sans-serif;
 }

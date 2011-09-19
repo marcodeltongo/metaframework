@@ -270,24 +270,24 @@ abstract class CrudController extends AclController
 		/*
 		 * Retrieve and prepare data
 		 */
-		$rows = array();
+		$datarows = array();
 		$records = $this->model->findAll($criteria);
 		foreach ($records as $record) {
 			$cell = array();
 			foreach ($cols as $col) {
 				$cell[] = is_object($record->$col) ? $record->$col->toString() : $record->$col;
 			}
-			$rows[] = array('id' => $record->getPrimaryKey(), 'cell' => $cell);
+			$datarows[] = array('id' => $record->getPrimaryKey(), 'cell' => $cell);
 		}
 
 		/*
 		 * Send JSON data
 		 */
 		$data = array(
-			'total' => $total,
+			'total' => ceil($total / $rows),
 			'page' => $page,
-			'records' => count($records),
-			'rows' => $rows,
+			'records' => $total,
+			'rows' => $datarows,
 		);
 		echo CJSON::encode($data);
 	}
@@ -311,10 +311,10 @@ abstract class CrudController extends AclController
 			$this->model->setAttributes($_POST[$this->modelClass]);
 
 			if ($this->model->save()) {
-				$this->setFlashSuccess(Yii::t('flash_messages', 'success'));
+				$this->setFlashSuccess(Yii::t('flash_messages', 'create success'));
 				$this->redirectUser($this->model->getPrimaryKey());
 			} else {
-				$this->setFlashError(Yii::t('flash_messages', 'error'));
+				$this->setFlashError(Yii::t('flash_messages', 'create error'));
 			}
 		}
 
@@ -349,10 +349,10 @@ abstract class CrudController extends AclController
 			$this->model->setAttributes($_POST[$this->modelClass]);
 
 			if ($this->model->save()) {
-				$this->setFlashSuccess(Yii::t('flash_messages', 'success'));
+				$this->setFlashSuccess(Yii::t('flash_messages', 'update success'));
 				$this->redirectUser($this->model->getPrimaryKey());
 			} else {
-				$this->setFlashError(Yii::t('flash_messages', 'error'));
+				$this->setFlashError(Yii::t('flash_messages', 'update error'));
 			}
 		}
 
@@ -383,10 +383,16 @@ abstract class CrudController extends AclController
 	 */
 	public function actionDelete($id)
 	{
-		$this->loadModel($id)->delete();
+		try {
+			$this->loadModel($id)->delete();
 
-		if (!Yii::app()->request->isAjaxRequest) {
-			$this->redirectUser();
+			$this->setFlashSuccess(Yii::t('flash_messages', 'delete success'));
+			if (!Yii::app()->request->isAjaxRequest) {
+				$this->redirectUser();
+			}
+		} catch (CDbException $exception) {
+			$this->setFlashError(Yii::t('flash_messages', 'delete error'));
+			$this->render('update', array('model' => $this->model));
 		}
 	}
 

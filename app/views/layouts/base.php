@@ -84,7 +84,7 @@
 </footer>
 </div><!--! end of #container -->
 
-<?php $this->widget('common.widgets.FlashMessages', array()); ?><!-- flashes -->
+<?php $this->widget('common.widgets.flashmsg.FlashMessages', array()); ?><!-- flashes -->
 
 <!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if necessary -->
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
@@ -109,7 +109,7 @@
     if (false !== $this->param('google-analytics', false)) {
 ?>
 <script>
-	var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview'],['_trackPageLoadTime']];
+	var _gaq=[['_setAccount','<?php echo $this->param('google-analytics'); ?>'],['_trackPageview'],['_trackPageLoadTime']];
 	(function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];g.async=1;
 	g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
 	s.parentNode.insertBefore(g,s)}(document,'script'));

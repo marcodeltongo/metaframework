@@ -1,0 +1,47 @@
+/* "Very simple messages" by Marco Del Tongo <info@marcodeltongo.com> - Public Domain */
+#flash-messages-container {
+	position: absolute;
+	top: 40px;
+	left: 0px;
+	right: 0px;
+	bottom: 0px;
+	display: none;
+	z-index: 1000;
+}
+
+.flash-message {
+	margin: 0px auto 10px auto;
+	width: 400px;
+	padding: 20px;
+	-webkit-border-radius: 12px;
+	-moz-border-radius: 12px;
+	border-radius: 12px;
+	-webkit-background-clip: padding-box;
+	-moz-background-clip: padding;
+	background-clip: padding-box;
+	-webkit-box-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+	-moz-box-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+	box-shadow: 1px 1px 4px rgba(0,0,0,0.5);
+	font-weight: bold;
+	font-size: 16px;
+	color: #ffffff;
+    text-shadow: 0px 0px 1px #000000;
+	text-align: center;
+	display: none;
+}
+
+.flash-error {
+	background-color: #cc0000;
+	border: 2px solid #a40000;
+	opacity: 0.9;
+}
+.flash-notice {
+	background-color: #729fcf;
+	border: 2px solid #204a87;
+	opacity: 0.9;
+}
+.flash-success {
+	background-color: #73d216;
+	border: 2px solid #4e9a06;
+	opacity: 0.9;
+}

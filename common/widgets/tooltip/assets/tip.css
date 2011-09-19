@@ -1,3 +1,4 @@
+/* "Very simple tooltips" by Marco Del Tongo <info@marcodeltongo.com> - Public Domain */
 p#tip {
     display: none;
     position: absolute;

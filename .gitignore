@@ -2,6 +2,7 @@
 common/vendors
 nbproject
 app/public/assets
+*.bin
 runtime
 .bak
 .mwb.bak
