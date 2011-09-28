@@ -115,7 +115,7 @@ EOD;
 
 	protected function extractMessages($fileName,$translator)
 	{
-		//echo "Extracting messages from $fileName...\n";
+		echo "Extracting messages from $fileName...\n";
 		$subject=file_get_contents($fileName);
 		$n=preg_match_all('/\b'.$translator.'\s*\(\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*,\s*(\'.*?(?<!\\\\)\'|".*?(?<!\\\\)")\s*[,\)]/s',$subject,$matches,PREG_SET_ORDER);
 		$messages=array();
