@@ -6,8 +6,8 @@
 return array(
     'basePath' => APP_DIR,
     'name' => APPSUITE_ID . '.' . APP_ID,
-    'language' => 'en',
-    'sourceLanguage' => 'en',
+    'language' => 'it',
+    'sourceLanguage' => 'it',
     'preload' => array('log'),
     // autoloading model and component classes
     'import' => array(
@@ -91,15 +91,15 @@ return array(
             'class' => 'Browser',
         ),
         'file' => array(
-            'class'=>'common.extensions.CFile.CFile',
+            'class' => 'common.extensions.CFile.CFile',
         ),
         /*
             ImageManager component
         */
         'imageManager' => array(
             'class' => 'ImageManager',
-            'baseUrl' => 'media/photos/',
-            'basePath' => PUBLIC_DIR . 'media/photos/',
+            'baseUrl' => 'images/',
+            'basePath' => PUBLIC_DIR . 'images/',
             'uploadClassPath' => VENDORS_DIR . 'Upload/',
             'formats' => array(
                     'imageFieldThumbnail' => array(
@@ -109,5 +109,11 @@ return array(
                     ),
             ),
         ),
+        /*
+            SimpleWorkflow component
+        */
+		'swSource'=> array(
+			'class'=>'common.extensions.simpleWorkflow.SWPhpWorkflowSource',
+		),
     ),
 );
