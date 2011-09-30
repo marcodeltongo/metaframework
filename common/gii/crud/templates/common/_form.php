@@ -156,6 +156,7 @@ foreach ($relations as $related => $relation)
             'relation' => '$related',
             'htmlOptions' => array(
                 'title' => \$model->attributeTitle('{$related}'),
+                'data-placeholder' => \$model->attributeTitle('{$related}'),
             ),
         )); ?></div>\n"; ?>
         <?php echo "<?php echo \$form->error(\$model, '{$attributeName}'); ?>\n"; ?>

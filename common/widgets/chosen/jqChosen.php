@@ -19,7 +19,7 @@ class jqChosen extends CWidget
 	 *
 	 * @var string
 	 */
-	public $selector = '.chosen';
+	public $selector = 'select';
     /**
      * Options
      *
