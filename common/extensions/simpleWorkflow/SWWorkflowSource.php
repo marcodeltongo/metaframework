@@ -28,7 +28,7 @@ abstract class SWWorkflowSource extends CApplicationComponent {
 	public function createSWNode($node,$workflowId){
 		if( !empty($node) or is_array($node)){
 			return new SWNode($node,$workflowId);	
-		}elseif(is_a($node,'SWNode')) {
+		}elseif( is_object($node) and is_a($node,'SWNode')) {
 			return $node;
 		}else
 			throw new SWException(Yii::t('simpleWorkflow','unable to create to SWNode'));		

@@ -16,6 +16,7 @@ return array(
         'common.validators.*',
         'common.components.*',
         'common.extensions.*',
+        'common.extensions.simpleWorkflow.*',
         'common.models.*',
         'common.widgets.*',
         'application.models.*',
@@ -33,8 +34,8 @@ return array(
             'cachePath' => APP_DIR . 'runtime/cache',
         ),
         'request' => array(
-            'enableCsrfValidation' => true,
-            'enableCookieValidation' => true,
+            'enableCsrfValidation' => false,
+            'enableCookieValidation' => false,
         ),
         'db' => array(
             'charset' => 'utf8',
