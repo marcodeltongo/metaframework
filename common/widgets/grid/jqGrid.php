@@ -176,6 +176,10 @@ class jqGrid extends CWidget
      */
     protected function jsCode($id)
     {
+		if (isset($this->options['autofilter']) and $this->options['autofilter'] === true) {
+			$datatype = (isset($this->options['datatype'])) ? $this->options['datatype'] : 'json';
+			$this->options['datatype'] = 'local';
+		}
         $options = $this->makeOptions($id);
 
         $nav = '';
@@ -193,6 +197,9 @@ class jqGrid extends CWidget
         }
 
         $script = "$('#{$id}').jqGrid({$options}){$nav}{$filter};";
+		if (isset($this->options['autofilter']) and $this->options['autofilter'] === true) {
+			$script .= "$(window).load(function() { $('#{$id}').setGridParam({ 'datatype': '$datatype' }); $('#{$id}')[0].triggerToolbar(); $('#{$id}')[0].toggleToolbar(); });";
+		}
 
         return $script;
     }

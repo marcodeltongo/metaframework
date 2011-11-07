@@ -82,7 +82,7 @@ abstract class Controller extends CController
 	 */
 	public function getActionParams()
 	{
-		return array_merge($_GET, $_POST);
+		return array_merge(array_remove_empty($_GET), array_remove_empty($_POST));
 	}
 
 	/**
@@ -186,7 +186,9 @@ abstract class Controller extends CController
 	 */
 	public function setFlash($key, $value)
 	{
-		Yii::app()->user->setFlash($key, $value, null);
+		$values = Yii::app()->user->getFlash($key, array(), false);
+		$values[] = $value;
+		Yii::app()->user->setFlash($key, $values, null);
 	}
 
 	/**

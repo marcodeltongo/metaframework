@@ -293,6 +293,16 @@ abstract class CrudController extends AclController
 	}
 
 	/**
+	 * Save uploaded files.
+	 *
+	 * @return boolean Return true to save model.
+	 */
+	protected function saveUploaded()
+	{
+		return true;
+	}
+
+	/**
 	 * Creates a new model.
 	 */
 	public function actionCreate()
@@ -310,12 +320,31 @@ abstract class CrudController extends AclController
 		if (isset($_POST[$this->modelClass])) {
 			$this->model->setAttributes($_POST[$this->modelClass]);
 
-			if ($this->model->save()) {
-				$this->setFlashSuccess(Yii::t('flash_messages', 'create success'));
-				$this->redirectUser($this->model->getPrimaryKey());
+			if ($this->model->save() and $this->saveUploaded()) {
+				if (Yii::app()->request->isAjaxRequest) {
+					echo CJSON::encode(array(
+						'status' => 'success',
+						'messages' => $this->user->getFlashes(),
+						'content' => Yii::t('flash_messages', 'create success'),
+					));
+					exit();
+				} else {
+					$this->setFlashSuccess(Yii::t('flash_messages', 'create success'));
+					$this->redirectUser($this->model->getPrimaryKey());
+				}
 			} else {
 				$this->setFlashError(Yii::t('flash_messages', 'create error'));
 			}
+		}
+
+		if (Yii::app()->request->isAjaxRequest) {
+			echo CJSON::encode(array(
+				'status' => 'failure',
+				'errors' => $this->model->getErrors(),
+				'messages' => $this->user->getFlashes(),
+				'content' => $this->renderPartial('_form', array('model' => $this->model), true, true),
+			));
+			exit();
 		}
 
 		$this->render('create', array('model' => $this->model));
@@ -333,7 +362,7 @@ abstract class CrudController extends AclController
 		/*
 		 * Delete button
 		 */
-		if (isset($_POST['_delete'])) {
+		if (isset($_POST['_delete']) or (isset($_POST['action']) and $_POST['action'] == '_delete')) {
 			return $this->actionDelete($id);
 		}
 
@@ -348,14 +377,32 @@ abstract class CrudController extends AclController
 		if (isset($_POST[$this->modelClass])) {
 			$this->model->setAttributes($_POST[$this->modelClass]);
 
-			if ($this->model->save()) {
-				$this->setFlashSuccess(Yii::t('flash_messages', 'update success'));
-				$this->redirectUser($this->model->getPrimaryKey());
+			if ($this->saveUploaded() and $this->model->save()) {
+				if (Yii::app()->request->isAjaxRequest) {
+					echo CJSON::encode(array(
+						'status' => 'success',
+						'messages' => $this->user->getFlashes(),
+						'content' => Yii::t('flash_messages', 'update success'),
+					));
+					exit();
+				} else {
+					$this->setFlashSuccess(Yii::t('flash_messages', 'update success'));
+					$this->redirectUser($this->model->getPrimaryKey());
+				}
 			} else {
 				$this->setFlashError(Yii::t('flash_messages', 'update error'));
 			}
 		}
 
+		if (Yii::app()->request->isAjaxRequest) {
+			echo CJSON::encode(array(
+				'status' => 'failure',
+				'errors' => $this->model->getErrors(),
+				'messages' => $this->user->getFlashes(),
+				'content' => $this->renderPartial('_form', array('model' => $this->model), true, true),
+			));
+			exit();
+		}
 		$this->render('update', array('model' => $this->model));
 	}
 
@@ -386,12 +433,29 @@ abstract class CrudController extends AclController
 		try {
 			$this->loadModel($id)->delete();
 
-			$this->setFlashSuccess(Yii::t('flash_messages', 'delete success'));
-			if (!Yii::app()->request->isAjaxRequest) {
+			if (Yii::app()->request->isAjaxRequest) {
+				echo CJSON::encode(array(
+					'status' => 'success',
+					'messages' => $this->user->getFlashes(),
+					'content' => Yii::t('flash_messages', 'delete success'),
+				));
+				exit();
+			} else {
+				$this->setFlashSuccess(Yii::t('flash_messages', 'delete success'));
 				$this->redirectUser();
 			}
 		} catch (CDbException $exception) {
 			$this->setFlashError(Yii::t('flash_messages', 'delete error'));
+
+			if (Yii::app()->request->isAjaxRequest) {
+				echo CJSON::encode(array(
+					'status' => 'failure',
+					'errors' => $this->model->getErrors(),
+					'messages' => $this->user->getFlashes(),
+					'content' => $this->renderPartial('_form', array('model' => $this->model), true, true),
+				));
+				exit();
+			}
 			$this->render('update', array('model' => $this->model));
 		}
 	}

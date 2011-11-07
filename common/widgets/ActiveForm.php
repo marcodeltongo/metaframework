@@ -31,11 +31,6 @@ class ActiveForm extends CActiveForm
         parent::run();
 
         $this->widget('common.widgets.tooltip.jqTooltip');
-
-		/*
-        $this->widget('common.widgets.selectmenu.jqSelectMenu');
-        $this->widget('common.widgets.multiselect.jqMultiSelect');
-		*/
 		$this->widget('common.widgets.chosen.jqChosen');
     }
 
@@ -100,5 +95,4 @@ class ActiveForm extends CActiveForm
 
 		return $this->dropDownList($model, $attribute, array(Yii::t('yii', 'No'), Yii::t('yii', 'Yes')), $htmlOptions);
 	}
-
 }
